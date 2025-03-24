@@ -1,0 +1,26 @@
+# The ID of the reward is the name of the .yml file,
+# for example diamond_block.yml has the ID of diamond_block
+# You can place rewards anywhere in this folder,
+# including in subfolders if you want to organize your reward configs
+# _example.yml is not loaded.
+
+display:
+  name: "&6&lLucky Toolset" # The display name of the reward
+  reward-lore:
+    - "&7Efficiency V" # The lore of the reward. This is shown on the tier within %rewards%. Formatting here will override config.yml
+    - "&7Unbreaking III"
+    - "&7Fortune III"
+    - "&7Mending I"
+
+# Effects to run when the battlepass reward is claimed.
+# %level% is the tier the battlepass levelled up to.
+# You can only use Triggered Effects here.
+effects:
+  - id: give_item
+    args:
+      items:
+        - netherite_pickaxe 1 efficiency:5 unbreaking:3 fortune:3 mending:1 name:"&6&lLucky Pickaxe"
+        - netherite_shovel 1 efficiency:5 unbreaking:3 fortune:3 mending:1 name:"&6&lLucky Shovel"
+        - netherite_axe 1 efficiency:5 unbreaking:3 fortune:3 mending:1 name:"&6&lLucky Axe"
+        - netherite_hoe 1 efficiency:5 unbreaking:3 fortune:3 mending:1 name:"&6&lLucky Hoe"
+

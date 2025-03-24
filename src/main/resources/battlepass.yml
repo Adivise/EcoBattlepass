@@ -12,13 +12,287 @@ battlepass:
 tiers:
   - tier: 1 # The tier number
     rewards:
-      - id: diamond_block # The ID of the reward
+      - id: coins_5000 # The ID of the reward
         tier: free # If the reward is locked to a battlepass path. Set to "free" to allow all players to claim it.
-      - id: money_1000 # The ID of the reward
+      - id: coins_10000 # The ID of the reward
         tier: premium # The tier the reward is in (free/premium)
-  - tier: 15
-    rewards:
-      - id: diamond_block
-        tier: free
-      - id: money_1000
+      - id: golden_apple_3
         tier: premium
+
+  - tier: 2
+    rewards:
+      - id: xp_100
+        tier: premium
+
+  - tier: 4
+    rewards:
+      - id: steak_32
+        tier: free
+      - id: steak_64
+        tier: premium
+      - id: golden_carrot_16
+        tier: premium
+
+  - tier: 6
+    rewards:
+      - id: cow_spawner_1
+        tier: premium
+
+  - tier: 7
+    rewards:
+      - id: iron_sword_s2
+        tier: free
+      - id: diamond_sword_s3
+        tier: premium
+
+  - tier: 9
+    rewards:
+      - id: xp_bottles_5.yml
+        tier: free
+      - id: xp_bottles_15.yml
+        tier: premium
+      - id: random_enchant_book.yml
+        tier: premium
+
+  - tier: 10
+    rewards:
+      - id: crafting_table_command.yml
+        tier: premium
+
+  - tier: 12
+    rewards:
+      - id: coins_10000.yml
+        tier: free
+      - id: coins_20000.yml
+        tier: premium
+
+  - tier: 14
+    rewards:
+      - id: random_enchant_book.yml
+        tier: premium
+
+  - tier: 16
+    rewards:
+      - id: cow_spawner_1.yml
+        tier: free
+      - id: cow_spawner_2.yml
+        tier: premium
+
+  - tier: 18
+    rewards:
+      - id: unbreaking_3_book.yml
+        tier: free
+      - id: protection_4_book.yml
+        tier: premium
+
+  - tier: 20
+    rewards:
+      - id: coins_25000.yml
+        tier: free
+      - id: coins_50000.yml
+        tier: premium
+
+  - tier: 22
+    rewards:
+      - id: netherite_ingot_1.yml
+        tier: premium
+
+  - tier: 24
+    rewards:
+      - id: xp_100.yml
+        tier: free
+      - id: xp_250.yml
+        tier: premium
+
+  - tier: 26
+    rewards:
+      - id: efficiency_4_book.yml
+        tier: premium
+
+  - tier: 28
+    rewards:
+      - id: golden_apple_5.yml
+        tier: free
+      - id: egolden_apple_2.yml
+        tier: premium
+
+  - tier: 30
+    rewards:
+      - id: diamond_pickaxe_e3.yml
+        tier: free
+      - id: netherite_pickaxe_e4u3.yml
+        tier: premium
+
+  - tier: 32
+    rewards:
+      - id: blaze_spawner_1.yml
+        tier: premium
+
+  - tier: 34
+    rewards:
+      - id: random_enchant_book.yml
+        tier: free
+      - id: fortune_3_book.yml
+        tier: premium
+
+  - tier: 36
+    rewards:
+      - id: anvil_command.yml
+        tier: premium
+
+  - tier: 38
+    rewards:
+      - id: sharpness_3_book.yml
+        tier: free
+      - id: sharpness_5_book.yml
+        tier: premium
+
+  - tier: 40
+    rewards:
+      - id: elytra_1.yml
+        tier: free
+      - id: elytra_u3m_1.yml
+        tier: premium
+
+  - tier: 42
+    rewards:
+      - id: totem_1.yml
+        tier: premium
+
+  - tier: 44
+    rewards:
+      - id: coins_50000.yml
+        tier: free
+      - id: coins_100000.yml
+        tier: premium
+
+  - tier: 46
+    rewards:
+      - id: ender_chest_command.yml
+        tier: premium
+
+  - tier: 48
+    rewards:
+      - id: blaze_spawner_1.yml
+        tier: free
+      - id: blaze_spawner_2.yml
+        tier: premium
+
+  - tier: 50
+    rewards:
+      - id: netherite_ingot_1.yml
+        tier: free
+      - id: netherite_ingot_3.yml
+        tier: premium
+
+  - tier: 52
+    rewards:
+      - id: iron_golem_spawner_1.yml
+        tier: premium
+
+  - tier: 54
+    rewards:
+      - id: coins_100000.yml
+        tier: free
+      - id: coins_250000.yml
+        tier: premium
+
+  - tier: 56
+    rewards:
+      - id: hat_command.yml
+        tier: premium
+
+  - tier: 58
+    rewards:
+      - id: protection_4_book.yml
+        tier: free
+      - id: protection_5_book.yml
+        tier: premium
+
+  - tier: 60
+    rewards:
+      - id: looting_3_book.yml
+        tier: premium
+
+  - tier: 62
+    rewards:
+      - id: totem_1.yml
+        tier: free
+      - id: totem_2.yml
+        tier: premium
+
+  - tier: 64
+    rewards:
+      - id: fortune_3_book.yml
+        tier: premium
+      - id: efficiency_5_book.yml
+        tier: premium
+
+  - tier: 66
+    rewards:
+      - id: sharpness_4_book.yml
+        tier: free
+      - id: sharpness_5_book.yml
+        tier: premium
+
+  - tier: 68
+    rewards:
+      - id: iron_golem_spawner_1.yml
+        tier: premium
+
+  - tier: 70
+    rewards:
+      - id: random_enchant_book_2.yml
+        tier: free
+      - id: random_enchant_book_3.yml
+        tier: premium
+
+  - tier: 72
+    rewards:
+      - id: lucky_tools.yml
+        tier: premium
+
+  - tier: 74
+    rewards:
+      - id: random_enchant_book_2.yml
+        tier: free
+      - id: random_enchant_book_3.yml
+        tier: premium
+
+  - tier: 78
+    rewards:
+      - id: random_enchant_book.yml
+        tier: free
+      - id: efficiency_5_book.yml
+        tier: premium
+
+  - tier: 82
+    rewards:
+      - id: iron_golem_spawner_1.yml
+        tier: free
+      - id: iron_golem_spawner_2.yml
+        tier: premium
+
+  - tier: 88
+    rewards:
+      - id: coins_150000.yml
+        tier: free
+      - id: coins_300000.yml
+        tier: premium
+
+  - tier: 90
+    rewards:
+      - id: lucky_sword.yml
+        tier: free
+      - id: lucky_armor.yml
+        tier: premium
+
+  - tier: 95
+    rewards:
+      - id: lucky_mace.yml
+        tier: premium
+
+  - tier: 100
+    rewards:
+      - id: beacon_1.yml
+        tier: free

@@ -1,9 +1,0 @@
-display:
-  name: "&2$1000"
-  reward-lore: # This is shown on the tier within %rewards%. Color is overriden by the tier color, defined in config.yml
-    - "&7Earn $1000"
-
-effects:
-  - id: give_money
-    args:
-      amount: 1000

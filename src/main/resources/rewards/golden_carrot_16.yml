@@ -1,0 +1,17 @@
+# The ID of the reward is the name of the .yml file,
+# for example diamond_block.yml has the ID of diamond_block
+# You can place rewards anywhere in this folder,
+# including in subfolders if you want to organize your reward configs
+# _example.yml is not loaded.
+
+display:
+  name: "&616x Golden Carrot" # The display name of the reward
+  reward-lore: [] # The lore of the reward. This is shown on the tier within %rewards%. Formatting here will override config.yml
+
+# Effects to run when the battlepass reward is claimed.
+# %level% is the tier the battlepass levelled up to.
+# You can only use Triggered Effects here.
+effects:
+  - id: give_item
+    args:
+      item: golden_carrot 16

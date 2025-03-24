@@ -1,0 +1,66 @@
+ Volume in drive I is DevDrive
+ Volume Serial Number is 5E77-707B
+
+ Directory of I:\xBattlepass\src\main\resources\rewards
+
+24/03/2025  03:24    <DIR>          .
+24/03/2025  03:24    <DIR>          ..
+24/03/2025  02:40               699 anvil_command.yml
+24/03/2025  03:12               681 beacon_1.yml
+24/03/2025  02:35               702 blaze_spawner_1.yml
+24/03/2025  02:55               705 blaze_spawner_2.yml
+24/03/2025  02:10               680 coins_10000.yml
+24/03/2025  02:54               682 coins_100000.yml
+24/03/2025  03:06               682 coins_150000.yml
+24/03/2025  02:23               680 coins_20000.yml
+24/03/2025  02:26               680 coins_25000.yml
+24/03/2025  02:56               682 coins_250000.yml
+24/03/2025  03:06               682 coins_300000.yml
+24/03/2025  02:09               677 coins_5000.yml
+24/03/2025  02:26               680 coins_50000.yml
+24/03/2025  02:16               698 cow_spawner_1.yml
+24/03/2025  02:23               701 cow_spawner_2.yml
+24/03/2025  02:23               703 crafting_table_command.yml
+24/03/2025  02:29               735 diamond_pickaxe_e3.yml
+24/03/2025  02:17               729 diamond_sword_s3.yml
+24/03/2025  03:04    <DIR>          ecoenchants
+24/03/2025  02:28               732 efficiency_4_book.yml
+24/03/2025  02:58               731 efficiency_5_book.yml
+24/03/2025  02:29               716 egolden_apple_2.yml
+24/03/2025  02:46               681 elytra_1.yml
+24/03/2025  02:47               742 elytra_u3m_1.yml
+24/03/2025  02:55               709 ender_chest_command.yml
+24/03/2025  02:36               727 fortune_3_book.yml
+24/03/2025  02:14               696 golden_apple_3.yml
+24/03/2025  02:28               696 golden_apple_5.yml
+24/03/2025  02:15               700 golden_carrot_16.yml
+24/03/2025  02:57               695 hat_command.yml
+24/03/2025  02:56               712 iron_golem_spawner_1.yml
+24/03/2025  03:06               715 iron_golem_spawner_2.yml
+24/03/2025  02:17               722 iron_sword_s2.yml
+24/03/2025  02:57               727 looting_3_book.yml
+24/03/2025  03:10             1,117 lucky_armor.yml
+24/03/2025  03:12               843 lucky_mace.yml
+24/03/2025  03:09               992 lucky_sword.yml
+24/03/2025  03:08             1,165 lucky_tools.yml
+24/03/2025  02:27               699 netherite_ingot_1.yml
+24/03/2025  02:55               702 netherite_ingot_3.yml
+24/03/2025  02:30               777 netherite_pickaxe_e4u3.yml
+24/03/2025  03:24                 0 output.txt
+24/03/2025  02:25               732 protection_4_book.yml
+24/03/2025  02:57               731 protection_5_book.yml
+24/03/2025  02:45               731 sharpness_3_book.yml
+24/03/2025  02:58               730 sharpness_4_book.yml
+24/03/2025  02:46               729 sharpness_5_book.yml
+24/03/2025  02:15               684 steak_32.yml
+24/03/2025  03:19               684 steak_64.yml
+24/03/2025  02:53               701 totem_1.yml
+24/03/2025  02:58               704 totem_2.yml
+24/03/2025  02:24               733 unbreaking_3_book.yml
+24/03/2025  02:13               702 xp_100.yml
+24/03/2025  02:27               702 xp_250.yml
+24/03/2025  02:19               711 xp_bottles_15.yml
+24/03/2025  02:19               706 xp_bottles_5.yml
+24/03/2025  01:43               696 _example.yml
+              56 File(s)         40,150 bytes
+               3 Dir(s)  46,175,084,544 bytes free
