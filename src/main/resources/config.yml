@@ -7,8 +7,6 @@
 # Prevents spamming the GUI to cause lag
 gui-cache-ttl: 1000
 
-premium-permission: xbattlepass.premium # The permission to access the premium tiers
-
 # GUI Configuration for the Battlepass GUI (/battlepass)
 battlepass-gui:
   title: "xBattlepass"

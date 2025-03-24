@@ -1,7 +1,7 @@
 battlepass:
   xp-formula: 1.5 * %level% + 5 # The formula to calculate the XP needed to reach the next tier
   max-tier: 100 # The maximum tier of the battle pass
-  command: 'battlepass' # The command to open the battle pass GUI
+  premium-permission: xbattlepass.premium # The permission to access the premium tiers
   battlepass-start: 2025-01-01 00:00 # The date the battle pass starts, used for scheduling start. Format: YYYY-MM-DD HH:MM
 
 # Below are the tier rewards for the battlepass.
