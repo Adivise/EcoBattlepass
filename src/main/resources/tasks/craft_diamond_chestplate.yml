@@ -1,0 +1,12 @@
+display:
+  display-name: Armorer
+  lore:
+    - "&7Craft %required% diamond chestplates"
+    - "&7%current%/%required%"
+
+xp-gain-methods:
+  - trigger: craft
+    multiplier: 1
+    filters:
+      items:
+        - "DIAMOND_CHESTPLATE"

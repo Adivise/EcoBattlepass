@@ -1,0 +1,12 @@
+display:
+  display-name: Blacksmith
+  lore:
+    - "&7Craft %required% pickaxes"
+    - "&7%current%/%required%"
+
+xp-gain-methods:
+  - trigger: craft
+    multiplier: 1
+    filters:
+      items:
+        - "#ITEMS_PICKAXES"

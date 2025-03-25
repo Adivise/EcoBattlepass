@@ -1,0 +1,16 @@
+display:
+  display-name: Beekeeper
+  lore:
+    - "&7Harvest %required% honeycombs"
+    - "&7%current%/%required%"
+
+xp-gain-methods:
+  - trigger: click_block
+    multiplier: 1
+    filters:
+      blocks:
+        - BEE_NEST
+        - BEEHIVE
+      items:
+        - "*SHEARS"
+      honey_level_full: true

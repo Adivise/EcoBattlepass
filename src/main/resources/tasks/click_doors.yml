@@ -1,0 +1,12 @@
+display:
+  display-name: Bouncer
+  lore:
+    - "&7Click wooden doors %required% times"
+    - "&7%current%/%required%"
+
+xp-gain-methods:
+  - trigger: click_block
+    multiplier: 1
+    filters:
+      blocks:
+        - "#WOODEN_DOORS"

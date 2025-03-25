@@ -1,0 +1,15 @@
+display:
+  display-name: Miner
+  lore:
+    - "&7Mine %required% gold ore"
+    - "&7%current%/%required%"
+
+xp-gain-methods:
+  - trigger: mine_block
+    multiplier: 1
+    filters:
+      blocks:
+        - "GOLD_ORE"
+        - "DEEPSLATE_GOLD_ORE"
+        - "NETHER_GOLD_ORE"
+      player_placed: false

@@ -1,7 +1,7 @@
 display:
-  display-name: Chickens
+  display-name: "Butcher"
   lore:
-    - "&7Kill chickens"
+    - "&7Kill %required% pigs"
     - "&7%current%/%required%"
 
 xp-gain-methods:
@@ -9,4 +9,4 @@ xp-gain-methods:
     value: 1
     filters:
       entities:
-        - chicken
+        - PIG

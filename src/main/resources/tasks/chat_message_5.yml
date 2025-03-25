@@ -1,0 +1,12 @@
+display:
+  display-name: Chatter
+  lore:
+    - "&7Send %required% messages"
+    - "&7%current%/%required%"
+
+xp-gain-methods:
+  - trigger: send_message
+    multiplier: 1
+    filters:
+      text:
+        - "Hard work pays off!"

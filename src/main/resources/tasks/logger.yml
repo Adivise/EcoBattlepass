@@ -1,0 +1,13 @@
+display:
+  display-name: Logger
+  lore:
+    - "&7Chop %required% logs"
+    - "&7%current%/%required%"
+
+xp-gain-methods:
+  - trigger: mine_block
+    multiplier: 1
+    filters:
+      blocks:
+        - "#LOGS"
+      player_placed: false

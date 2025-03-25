@@ -1,0 +1,12 @@
+display:
+  display-name: Glazier
+  lore:
+    - "&7Place %required% glass blocks"
+    - "&7%current%/%required%"
+
+xp-gain-methods:
+  - trigger: click_block
+    multiplier: 1
+    filters:
+      blocks:
+        - GLASS

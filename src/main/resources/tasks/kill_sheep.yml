@@ -1,0 +1,12 @@
+display:
+  display-name: "Butcher"
+  lore:
+    - "&7Kill %required% sheep"
+    - "&7%current%/%required%"
+
+xp-gain-methods:
+  - trigger: kill
+    value: 1
+    filters:
+      entities:
+        - SHEEP

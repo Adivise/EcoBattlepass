@@ -1,0 +1,16 @@
+display:
+  display-name: "Butter Tools"
+  lore:
+    - "&7Break %required% golden tools"
+    - "&7%current%/%required%"
+
+xp-gain-methods:
+  - trigger: item_break
+    multiplier: 1
+    filters:
+      items:
+        - GOLDEN_AXE
+        - GOLDEN_HOE
+        - GOLDEN_PICKAXE
+        - GOLDEN_SHOVEL
+        - GOLDEN_SWORD

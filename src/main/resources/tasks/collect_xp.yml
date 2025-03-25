@@ -1,0 +1,9 @@
+display:
+  display-name: Researcher
+  lore:
+    - "&7Collect %required% experience"
+    - "&7%current%/%required%"
+
+xp-gain-methods:
+  - trigger: gain_xp
+    multiplier: 1

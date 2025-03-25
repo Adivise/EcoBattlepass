@@ -1,5 +1,5 @@
 battlepass:
-  xp-formula: 1.5 * %level% + 5 # The formula to calculate the XP needed to reach the next tier
+  xp-formula: '100' # The formula to calculate the XP needed to reach the next tier. You can use math here for scaling the XP needed. Example: '100 + (2 * %level%)'
   max-tier: 100 # The maximum tier of the battle pass
   premium-permission: xbattlepass.premium # The permission to access the premium tiers
   battlepass-start: 2025-01-01 00:00 # The date the battle pass starts, used for scheduling start. Format: YYYY-MM-DD HH:MM
@@ -75,7 +75,7 @@ tiers:
     rewards:
       - id: cow_spawner_1
         tier: free
-      - id: cow_spawner_2
+      - id: cow_spawner_1
         tier: premium
 
   - tier: 18
@@ -175,7 +175,7 @@ tiers:
     rewards:
       - id: blaze_spawner_1
         tier: free
-      - id: blaze_spawner_2
+      - id: blaze_spawner_1
         tier: premium
 
   - tier: 50
@@ -270,7 +270,7 @@ tiers:
     rewards:
       - id: iron_golem_spawner_1
         tier: free
-      - id: iron_golem_spawner_2
+      - id: iron_golem_spawner_1
         tier: premium
 
   - tier: 88

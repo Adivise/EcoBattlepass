@@ -1,0 +1,12 @@
+display:
+  display-name: "Slayer"
+  lore:
+    - "&7Kill %required% zombies"
+    - "&7%current%/%required%"
+
+xp-gain-methods:
+  - trigger: kill
+    value: 1
+    filters:
+      entities:
+        - ZOMBIE

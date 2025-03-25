@@ -1,0 +1,14 @@
+display:
+  display-name: Miner
+  lore:
+    - "&7Mine %required% redstone ore"
+    - "&7%current%/%required%"
+
+xp-gain-methods:
+  - trigger: mine_block
+    multiplier: 1
+    filters:
+      blocks:
+        - "REDSTONE_ORE"
+        - "DEEPSLATE_REDSTONE_ORE"
+      player_placed: false

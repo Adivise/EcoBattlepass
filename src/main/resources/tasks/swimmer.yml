@@ -1,0 +1,11 @@
+display:
+  display-name: Swimmer
+  lore:
+    - "&7Swim %required% blocks"
+    - "&7%current%/%required%"
+
+xp-gain-methods:
+  - trigger: move
+    multiplier: 1
+    conditions:
+      - id: is_swimming

@@ -1,0 +1,12 @@
+display:
+  display-name: "Murder Mystery"
+  lore:
+    - "&7Kill %required% players in PVP"
+    - "&7%current%/%required%"
+
+xp-gain-methods:
+  - trigger: kill
+    value: 1
+    filters:
+      entities:
+        - PLAYER

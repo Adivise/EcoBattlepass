@@ -1,0 +1,12 @@
+display:
+  display-name: Elytra Enchanter
+  lore:
+    - "&7Enchant an elytra with %required% enchantments"
+    - "&7%current%/%required%"
+
+xp-gain-methods:
+  - trigger: enchant_item
+    value: 1
+    filters:
+      items:
+        - ELYTRA

@@ -1,0 +1,13 @@
+display:
+  display-name: "Why Squid?"
+  lore:
+    - "&7Leash %required% squids"
+    - "&7%current%/%required%"
+
+xp-gain-methods:
+  - trigger: leash_entity
+    multiplier: 1
+    filters:
+      entities:
+        - SQUID
+        - GLOW_SQUID

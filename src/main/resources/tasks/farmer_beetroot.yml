@@ -1,0 +1,13 @@
+display:
+  display-name: Farmer
+  lore:
+    - "&7Harvest %required% beetroot"
+    - "&7%current%/%required%"
+
+xp-gain-methods:
+  - trigger: mine_block
+    multiplier: 1
+    filters:
+      blocks:
+        - "BEETROOTS"
+      fully_grown: true

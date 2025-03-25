@@ -1,0 +1,12 @@
+display:
+  display-name: Carnivore
+  lore:
+    - "&7Eat %required% meat"
+    - "&7%current%/%required%"
+
+xp-gain-methods:
+  - trigger: consume
+    multiplier: 1
+    filters:
+      items:
+        - "#ITEMS_MEAT"
