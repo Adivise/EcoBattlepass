@@ -1,0 +1,9 @@
+display:
+  display-name: "Ultimate Protector"
+  lore:
+    - "&7Win %required% raids"
+    - "&7%current%/%required%"
+
+xp-gain-methods:
+  - trigger: win_raid
+    value: 1

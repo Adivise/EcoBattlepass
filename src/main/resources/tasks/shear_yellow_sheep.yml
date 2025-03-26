@@ -1,0 +1,11 @@
+display:
+  display-name: "Wool Harvester"
+  lore:
+    - "&7Shear %required% white sheep"
+    - "&7%current%/%required%"
+
+xp-gain-methods:
+  - trigger: shear_entity
+    value: 1
+    filters:
+      sheep_color: WHITE

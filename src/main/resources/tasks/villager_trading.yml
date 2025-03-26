@@ -1,0 +1,9 @@
+display:
+  display-name: "Master Bargainer"
+  lore:
+    - "&7Earn %required% villager trading experience"
+    - "&7%current%/%required%"
+
+xp-gain-methods:
+  - trigger: villager_trade
+    multiplier: 1

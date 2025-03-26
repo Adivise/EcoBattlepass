@@ -1,0 +1,9 @@
+display:
+  display-name: "Diplomacy"
+  lore:
+    - "&7Vote for the server %required% times"
+    - "&7%current%/%required%"
+
+xp-gain-methods:
+  - trigger: register_vote
+    value: 1
