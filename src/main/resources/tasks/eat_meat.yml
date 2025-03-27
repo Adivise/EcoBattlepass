@@ -1,5 +1,5 @@
 display:
-  display-name: Carnivore
+  display-name: "Carnivore"
   lore:
     - "&7Eat %required% meat"
     - "&7%current%/%required%"

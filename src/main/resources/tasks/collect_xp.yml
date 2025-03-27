@@ -1,5 +1,5 @@
 display:
-  display-name: Researcher
+  display-name: "Researcher"
   lore:
     - "&7Collect %required% experience"
     - "&7%current%/%required%"

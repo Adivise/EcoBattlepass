@@ -1,5 +1,5 @@
 display:
-  display-name: Beekeeper
+  display-name: "Beekeeper"
   lore:
     - "&7Harvest %required% honeycombs"
     - "&7%current%/%required%"

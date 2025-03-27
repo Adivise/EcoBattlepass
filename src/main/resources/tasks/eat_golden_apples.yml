@@ -1,5 +1,5 @@
 display:
-  display-name: Sparkle Fruit
+  display-name: "Sparkle Fruit"
   lore:
     - "&7Eat %required% golden apples"
     - "&7%current%/%required%"

@@ -8,4 +8,6 @@ xp-gain-methods:
   - trigger: change_world
     value: 1
     conditions:
-      - in_world: world_nether
+      - id: in_world
+        args:
+          world: world_nether

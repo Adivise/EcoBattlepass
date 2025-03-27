@@ -1,5 +1,5 @@
 display:
-  display-name: Blacksmith
+  display-name: "Blacksmith"
   lore:
     - "&7Craft %required% swords"
     - "&7%current%/%required%"

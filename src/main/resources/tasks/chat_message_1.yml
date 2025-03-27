@@ -1,5 +1,5 @@
 display:
-  display-name: Chatter
+  display-name: "Chatter"
   lore:
     - "&7Send %required% messages"
     - "&7%current%/%required%"

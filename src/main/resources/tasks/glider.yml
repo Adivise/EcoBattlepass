@@ -1,5 +1,5 @@
 display:
-  display-name: Glider
+  display-name: "Glider"
   lore:
     - "&7Glide %required% blocks"
     - "&7%current%/%required%"

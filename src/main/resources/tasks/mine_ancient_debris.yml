@@ -1,5 +1,5 @@
 display:
-  display-name: Miner
+  display-name: "Miner"
   lore:
     - "&7Mine %required% ancient debris"
     - "&7%current%/%required%"

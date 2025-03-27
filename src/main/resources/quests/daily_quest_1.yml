@@ -8,7 +8,7 @@ battlepass-points: 100
 battlepass-tier: premium 
 
 tasks: # The list of tasks
-  - id: chickens
+  - id: vote_server
     xp: 100
 
 task-amount: 1 # The amount of tasks that need to be completed

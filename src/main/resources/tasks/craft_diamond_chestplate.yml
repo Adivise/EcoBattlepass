@@ -1,5 +1,5 @@
 display:
-  display-name: Armorer
+  display-name: "Armorer"
   lore:
     - "&7Craft %required% diamond chestplates"
     - "&7%current%/%required%"

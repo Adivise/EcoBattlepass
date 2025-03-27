@@ -1,5 +1,5 @@
 display:
-  display-name: Elytra Enchanter
+  display-name: "Elytra Enchanter"
   lore:
     - "&7Enchant an elytra with %required% enchantments"
     - "&7%current%/%required%"

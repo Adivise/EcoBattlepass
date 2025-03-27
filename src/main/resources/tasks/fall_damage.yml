@@ -1,5 +1,5 @@
 display:
-  display-name: Clumsy
+  display-name: "Clumsy"
   lore:
     - "&7Take %required% fall damage"
     - "&7%current%/%required%"

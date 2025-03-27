@@ -1,5 +1,5 @@
 display:
-  display-name: Farmer
+  display-name: "Farmer"
   lore:
     - "&7Harvest %required% potatoes"
     - "&7%current%/%required%"

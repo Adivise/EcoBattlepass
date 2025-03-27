@@ -1,5 +1,5 @@
 display:
-  display-name: Bouncer
+  display-name: "Bouncer"
   lore:
     - "&7Click wooden doors %required% times"
     - "&7%current%/%required%"

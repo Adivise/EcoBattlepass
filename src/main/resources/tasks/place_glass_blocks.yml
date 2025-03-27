@@ -1,5 +1,5 @@
 display:
-  display-name: Glazier
+  display-name: "Glazier"
   lore:
     - "&7Place %required% glass blocks"
     - "&7%current%/%required%"

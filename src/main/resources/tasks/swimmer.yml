@@ -1,5 +1,5 @@
 display:
-  display-name: Swimmer
+  display-name: "Swimmer"
   lore:
     - "&7Swim %required% blocks"
     - "&7%current%/%required%"

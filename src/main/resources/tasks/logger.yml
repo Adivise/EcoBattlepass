@@ -1,5 +1,5 @@
 display:
-  display-name: Logger
+  display-name: "Logger"
   lore:
     - "&7Chop %required% logs"
     - "&7%current%/%required%"
