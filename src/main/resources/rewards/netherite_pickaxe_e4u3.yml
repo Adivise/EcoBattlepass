@@ -7,8 +7,8 @@
 display:
   name: "Netherite Pickaxe" # The display name of the reward
   reward-lore:
-    - "&7Efficiency IV" # The lore of the reward. This is shown on the tier within %rewards%. Formatting here will override config.yml
-    - "&7Unbreaking III"
+    - "Efficiency IV" # The lore of the reward. This is shown on the tier within %rewards%. Formatting here will override config.yml
+    - "Unbreaking III"
 
 # Effects to run when the battlepass reward is claimed.
 # %level% is the tier the battlepass levelled up to.

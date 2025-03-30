@@ -111,19 +111,19 @@ tiers-gui:
         row: 6
         column: 5
 
-    free-rewards-format: "&2%reward%"
-    premium-rewards-format: "&9%reward%"
-    empty-rewards-format: "&cNone"
+    free-rewards-format: "&8»&r &9%reward%"
+    premium-rewards-format: "&8»&r &6%reward%"
+    empty-rewards-format: ""
 
     unlocked:
       item: lime_stained_glass_pane
       name: "&aTier %tier_numeral%"
       lore:
         - "&7Rewards:"
-        - " &7* Free:"
-        - "   %free-rewards%"
-        - " &7* Premium:"
-        - "   %premium-rewards%"
+        - "&7Free:"
+        - "%free-rewards%"
+        - "&7Premium:"
+        - "%premium-rewards%"
         - ""
         - "&aCLAIM"
 
@@ -132,10 +132,10 @@ tiers-gui:
       name: "&eTier %tier_numeral%"
       lore:
         - "&7Rewards:"
-        - " &7* Free:"
-        - "   %free-rewards%"
-        - " &7* Premium:"
-        - "   %premium-rewards%"
+        - "&7Free:"
+        - "%free-rewards%"
+        - "&7Premium:"
+        - "%premium-rewards%"
         - ""
         - "&fProgress:"
         - "&8» &e%percentage_progress%%"
@@ -146,10 +146,10 @@ tiers-gui:
       name: "&cTier %tier_numeral%"
       lore:
         - "&7Rewards:"
-        - " &7* Free:"
-        - "   %free-rewards%"
-        - " &7* Premium:"
-        - "   %premium-rewards%"
+        - "&7Free:"
+        - "%free-rewards%"
+        - "&7Premium:"
+        - "%premium-rewards%"
         - ""
         - "&cLOCKED"
 
@@ -158,10 +158,10 @@ tiers-gui:
       name: "&aTier %tier_numeral%"
       lore:
         - "&7Rewards:"
-        - " &7* Free:"
-        - "   %free-rewards%"
-        - " &7* Premium:"
-        - "   %premium-rewards%"
+        - "&7Free:"
+        - "%free-rewards%"
+        - "&7Premium:"
+        - "%premium-rewards%"
         - ""
         - "&aCLAIMED"
 

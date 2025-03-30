@@ -1,5 +1,5 @@
 battlepass:
-  xp-formula: '100' # The formula to calculate the XP needed to reach the next tier. You can use math here for scaling the XP needed. Example: '100 + (2 * %level%)'
+  xp-formula: '1250' # The formula to calculate the XP needed to reach the next tier. You can use math here for scaling the XP needed. Example: '100 + (2 * %level%)'
   max-tier: 100 # The maximum tier of the battle pass
   premium-permission: xbattlepass.premium # The permission to access the premium tiers
   battlepass-start: 2025-01-01 00:00 # The date the battle pass starts, used for scheduling start. Format: YYYY-MM-DD HH:MM
