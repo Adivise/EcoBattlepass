@@ -14,7 +14,7 @@ battlepass-tier: free # If the quest is locked to a battlepass path. Set to "fre
 
 tasks: # The list of tasks
   - id: villager_trading # The ID of the task
-    xp: random(32,72) # The amount of XP required
+    xp: round(random(32,72)) # The amount of XP required
 
 
 task-amount: 1 # The amount of tasks that need to be completed

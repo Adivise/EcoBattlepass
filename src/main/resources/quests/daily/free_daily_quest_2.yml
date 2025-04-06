@@ -8,6 +8,6 @@ battlepass-tier: free
 
 tasks: # The list of tasks
   - id: mine_diamond
-    xp: 'random(8,64)'
+    xp: 'round(random(8,64))'
   
 task-amount: 1 # The amount of tasks that need to be completed
