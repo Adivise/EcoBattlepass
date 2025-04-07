@@ -14,6 +14,6 @@ battlepass-tier: free # If the quest is locked to a battlepass path. Set to "fre
 
 tasks: # The list of tasks
   - id: place_glass_blocks # The ID of the task
-    xp: random(32,128) # The amount of XP required
+    xp: round(random(32,128)) # The amount of XP required
 
 task-amount: 1 # The amount of tasks that need to be completed

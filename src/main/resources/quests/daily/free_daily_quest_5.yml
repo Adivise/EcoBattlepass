@@ -8,6 +8,6 @@ battlepass-tier: free
 
 tasks: # The list of tasks
   - id: farmer_melon
-    xp: random(8,16)
+    xp: round(random(8,16))
   
 task-amount: 1 # The amount of tasks that need to be completed

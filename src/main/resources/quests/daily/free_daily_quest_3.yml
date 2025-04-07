@@ -8,6 +8,6 @@ battlepass-tier: free
 
 tasks: # The list of tasks
   - id: collect_xp
-    xp: "random(128,512)"
+    xp: "round(random(128,512))"
   
 task-amount: 1 # The amount of tasks that need to be completed

@@ -8,6 +8,6 @@ battlepass-tier: free
 
 tasks: # The list of tasks
   - id: chat_unspecific
-    xp: "random(5,10)"
+    xp: "round(random(5,10))"
   
 task-amount: 1 # The amount of tasks that need to be completed
