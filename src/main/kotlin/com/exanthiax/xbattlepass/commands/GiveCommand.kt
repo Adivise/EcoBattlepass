@@ -51,6 +51,7 @@ object GiveCommand: PluginCommand(
         sender.sendMessage(plugin.langYml.getMessage("given-experience")
             .replace("%playername%", player.name)
             .replace("%amount%", amount.toNiceString())
+            .replace("%pass%", pass.name)
         )
     }
 
