@@ -39,7 +39,7 @@ class BPTier(val config: Config, val battlepass: BattlePass) {
             )
         }
 
-        return result.formatEco(player = player, formatPlaceholders = true)
+        return result.formatEco(player, true)
     }
 
     private fun replaceBasicPlaceholders(input: String, player: Player): String {
@@ -120,7 +120,7 @@ class BPTier(val config: Config, val battlepass: BattlePass) {
             }
         }
 
-        return result.formatEco(player, formatPlaceholders = true)
+        return result.formatEco(player, true)
     }
 
     fun format(singleString: String, player: Player): List<String> {
