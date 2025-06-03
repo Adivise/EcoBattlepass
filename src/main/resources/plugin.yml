@@ -1,7 +1,7 @@
 name: ${pluginName}
 version: ${version}
 main: com.exanthiax.xbattlepass.XBattlePass
-author: Exanthiax, _OfTeN_
+author: Exanthiax, _OfTeN_, Auxilor
 api-version: 1.19
 depend:
   - eco
