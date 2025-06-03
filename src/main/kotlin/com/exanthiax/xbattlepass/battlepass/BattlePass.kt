@@ -22,51 +22,44 @@ import com.exanthiax.xbattlepass.commands.dynamic.DynamicPassCommand
 import com.exanthiax.xbattlepass.plugin
 import com.exanthiax.xbattlepass.quests.ActiveBattleQuest
 import com.exanthiax.xbattlepass.tiers.BPTier
+import com.willfp.eco.util.formatWithCommas
 import com.willfp.eco.util.toNumeral
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class BattlePass(private val _id: String, val config: Config): Registrable {
     init {
-        // Placeholders
 
-        // %battlepass_tier%
-        // %battlepass_xp_required
-        // %battlepass_xp%
-
-        PlayerPlaceholder(
-            plugin,
-            "tier_$_id"
-        ) {
-                player -> player.getTier(this).toNiceString()
+        PlayerPlaceholder(plugin, "tier_${_id}") {
+            player -> player.getTier(this).toNiceString()
         }.register()
 
-        PlayerPlaceholder(
-            plugin,
-            "tier_${_id}_numeral"
-        ) {
-                player -> player.getTier(this).toNumeral()
+        PlayerPlaceholder(plugin, "tier_${_id}_numeral") {
+            player -> player.getTier(this).toNumeral()
         }.register()
 
-        PlayerPlaceholder(
-            plugin,
-            "xp_required_$_id"
-        ) {
-                player -> getFormattedRequired(player)
+        PlayerPlaceholder(plugin, "xp_required_${_id}") {
+            player -> getFormattedRequired(player)
         }.register()
 
-        PlayerPlaceholder(
-            plugin,
-            "xp_$_id"
-        ) {
-                player -> player.getPassExp(this).toNiceString()
+        PlayerPlaceholder(plugin, "xp_required_${_id}_formatted") {
+            player -> getFormattedRequired(player).toDouble().formatWithCommas()
         }.register()
 
-        PlayerPlaceholder(
-            plugin,
-            "claimable_$_id"
-        ) {
-                player -> getClaimable(player).toNiceString()
+        PlayerPlaceholder(plugin, "xp_${_id}") {
+            player -> player.getPassExp(this).toNiceString()
+        }.register()
+
+        PlayerPlaceholder(plugin, "xp_${_id}_formatted") {
+            player -> player.getPassExp(this).formatWithCommas()
+        }.register()
+
+        PlayerPlaceholder(plugin, "claimable_${_id}") {
+            player -> getClaimable(player).toNiceString()
+        }.register()
+
+        PlayerPlaceholder(plugin, "${_id}_percentage_progress") {
+            player -> getFormattedProgress(player)
         }.register()
     }
 
