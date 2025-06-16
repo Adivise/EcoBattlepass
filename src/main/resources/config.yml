@@ -59,7 +59,7 @@ battlepass-gui:
       material: barrier
       name: "&cClose"
       location:
-        row: 2
+        row: 3
         column: 5
 
     # Custom GUI slots; see here for a how-to: https://plugins.auxilor.io/all-plugins/custom-gui-slots
