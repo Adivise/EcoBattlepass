@@ -12,6 +12,8 @@ import com.exanthiax.xbattlepass.battlepass.BattlePass
 import com.exanthiax.xbattlepass.quests.ActiveBattleQuest
 import com.exanthiax.xbattlepass.tasks.ActiveBattleTask
 import com.exanthiax.xbattlepass.tiers.BPTier
+import com.exanthiax.xbattlepass.tiers.TierType
+import com.exanthiax.xbattlepass.utils.ReceivedTierState
 import kotlin.math.abs
 
 fun OfflinePlayer.getTier(pass: BattlePass): Int {
@@ -47,7 +49,17 @@ fun Player.receiveTier(tier: BPTier) {
         it.reward.grant(this)
     }
 
-    this.setReceivedTiers(tier.battlepass, this.getReceivedTiers(tier.battlepass) + tier.saveId)
+    this.setReceivedTiers(tier.battlepass, this.getReceivedTiers(tier.battlepass)
+            + if (this.hasPremium(tier.battlepass)) tier.saveId else tier.saveIdFree)
+}
+
+fun Player.receiveTierPremiumOnly(tier: BPTier) {
+    tier.rewards.filter { it.tier == TierType.PREMIUM }.forEach {
+        it.reward.grant(this)
+    }
+
+
+    this.setReceivedTiers(tier.battlepass, this.getReceivedTiers(tier.battlepass) - tier.saveIdFree + tier.saveId )
 }
 
 fun OfflinePlayer.hasCompletedTask(task: ActiveBattleTask): Boolean {
@@ -156,7 +168,14 @@ fun Player.giveExactBPTiers(pass: BattlePass, amount: Int) {
     }
 }
 
-fun OfflinePlayer.hasReceivedTier(pass: BattlePass, tier: Int) : Boolean {
-    val bpTier = pass.getTier(tier) ?: return false
-    return bpTier.saveId in this.getReceivedTiers(pass)
+fun Player.hasReceivedTier(pass: BattlePass, tier: Int) : ReceivedTierState {
+    val bpTier = pass.getTier(tier) ?: return ReceivedTierState.NOT_RECEIVED
+    val receivedTiers = this.getReceivedTiers(pass)
+    return if (bpTier.saveId in receivedTiers)  {
+        ReceivedTierState.RECEIVED
+    } else if (bpTier.saveIdFree in receivedTiers && bpTier.rewards.any { it.tier == TierType.PREMIUM }) {
+        ReceivedTierState.RECEIVED_FREE
+    } else if (bpTier.saveIdFree in receivedTiers) {
+        ReceivedTierState.RECEIVED
+    } else ReceivedTierState.NOT_RECEIVED
 }

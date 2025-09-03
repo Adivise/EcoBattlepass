@@ -16,7 +16,9 @@ class BattleQuest(private val _id: String, val config: Config): Registrable, Tie
         it.name.equals(config.getString("battlepass-tier"), true)
     }
 
-    val item = Items.lookup(config.getString("display.item"))
+    val itemString = config.getString("display.item")
+
+    // val item = Items.lookup(config.getString("display.item"))
 
     val displayName = config.getString("display.display-name")
 

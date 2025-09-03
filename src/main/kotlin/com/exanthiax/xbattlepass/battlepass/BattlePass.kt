@@ -22,13 +22,22 @@ import com.exanthiax.xbattlepass.commands.dynamic.DynamicPassCommand
 import com.exanthiax.xbattlepass.plugin
 import com.exanthiax.xbattlepass.quests.ActiveBattleQuest
 import com.exanthiax.xbattlepass.tiers.BPTier
+import com.exanthiax.xbattlepass.utils.ReceivedTierState
+import com.willfp.eco.core.placeholder.PlayerDynamicPlaceholder
 import com.willfp.eco.util.formatWithCommas
 import com.willfp.eco.util.toNumeral
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.regex.Pattern
 
 class BattlePass(private val _id: String, val config: Config): Registrable {
     init {
+
+        PlayerDynamicPlaceholder(plugin, Pattern.compile("tier_state_${_id}_\\d+$")) { string, player ->
+            val rTier = string.split("_").last().toIntOrNull()
+                ?: return@PlayerDynamicPlaceholder "Invalid tier ${string.split("_").last()}"
+            player.hasReceivedTier(this, rTier).toString()
+        }.register()
 
         PlayerPlaceholder(plugin, "tier_${_id}") {
             player -> player.getTier(this).toNiceString()
@@ -160,7 +169,7 @@ class BattlePass(private val _id: String, val config: Config): Registrable {
 
     fun getClaimable(player: Player): Int {
         return tiers.filter {
-            player.getTier(this) >= it.number && !player.hasReceivedTier(this, it.number)
+            player.getTier(this) >= it.number && player.hasReceivedTier(this, it.number) != ReceivedTierState.RECEIVED
         }.size
     }
 

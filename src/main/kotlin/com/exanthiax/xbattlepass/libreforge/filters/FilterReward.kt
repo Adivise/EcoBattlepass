@@ -5,7 +5,7 @@ import com.willfp.eco.util.containsIgnoreCase
 import com.willfp.libreforge.NoCompileData
 import com.willfp.libreforge.filters.Filter
 import com.willfp.libreforge.triggers.TriggerData
-import com.exanthiax.xbattlepass.api.events.PlayerRewardEvent
+import com.exanthiax.xbattlepass.api.events.PlayerPostRewardEvent
 
 object FilterReward: Filter<NoCompileData, Collection<String>>("battlepass_reward") {
     override fun getValue(config: Config, data: TriggerData?, key: String): Collection<String> {
@@ -13,7 +13,7 @@ object FilterReward: Filter<NoCompileData, Collection<String>>("battlepass_rewar
     }
 
     override fun isMet(data: TriggerData, value: Collection<String>, compileData: NoCompileData): Boolean {
-        val event = data.event as? PlayerRewardEvent ?: return false
+        val event = data.event as? PlayerPostRewardEvent ?: return false
 
         return value.containsIgnoreCase(event.reward.id)
     }

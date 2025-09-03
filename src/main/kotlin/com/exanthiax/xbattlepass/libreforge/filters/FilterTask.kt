@@ -5,7 +5,6 @@ import com.willfp.eco.util.containsIgnoreCase
 import com.willfp.libreforge.NoCompileData
 import com.willfp.libreforge.filters.Filter
 import com.willfp.libreforge.triggers.TriggerData
-import com.exanthiax.xbattlepass.api.events.PlayerRewardEvent
 import com.exanthiax.xbattlepass.api.events.PlayerTaskCompleteEvent
 
 object FilterTask: Filter<NoCompileData, Collection<String>>("battlepass_task") {

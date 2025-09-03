@@ -5,9 +5,7 @@ import com.willfp.libreforge.triggers.Trigger
 import com.willfp.libreforge.triggers.TriggerData
 import com.willfp.libreforge.triggers.TriggerParameter
 import org.bukkit.event.EventHandler
-import com.exanthiax.xbattlepass.api.events.PlayerRewardEvent
-import com.exanthiax.xbattlepass.api.events.PlayerTaskCompleteEvent
-import com.exanthiax.xbattlepass.api.events.PlayerTierLevelUpEvent
+import com.exanthiax.xbattlepass.api.events.PlayerPostRewardEvent
 
 object TriggerBPRewardClaim: Trigger("claim_battlepass_reward") {
     override val parameters: Set<TriggerParameter> = setOf(
@@ -16,7 +14,7 @@ object TriggerBPRewardClaim: Trigger("claim_battlepass_reward") {
     )
 
     @EventHandler(ignoreCancelled = true)
-    fun handleLevelUp(event: PlayerRewardEvent) {
+    fun handleLevelUp(event: PlayerPostRewardEvent) {
         this.dispatch(
             event.player.toDispatcher(),
             TriggerData(

@@ -139,7 +139,7 @@ class QuestsGUI(private val player: Player, val category: Category, val page: In
 
     private fun slot(pair: ActiveBattleQuest): Slot {
         val itemBuilder = ItemStackBuilder(
-            pair.parent.item.item.clone()
+            Items.lookup(pair.parent.itemString.replace("%player%", player.name)).item.clone()
         ).setDisplayName(
             pair.getFormattedName(player)
         ).addLoreLines(

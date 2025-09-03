@@ -6,11 +6,10 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import com.exanthiax.xbattlepass.api.events.PlayerBPExpGainEvent
 import com.exanthiax.xbattlepass.api.events.PlayerQuestCompleteEvent
-import com.exanthiax.xbattlepass.api.events.PlayerRewardEvent
+import com.exanthiax.xbattlepass.api.events.PlayerPostRewardEvent
 import com.exanthiax.xbattlepass.api.events.PlayerTierLevelUpEvent
 import com.exanthiax.xbattlepass.api.getTier
 import com.exanthiax.xbattlepass.api.giveBPExperience
-import org.bukkit.Sound
 
 class BattlePassListener(
     private val plugin: XBattlePass
@@ -59,8 +58,8 @@ class BattlePassListener(
         )
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    fun handleReward(event: PlayerRewardEvent) {
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    fun handleReward(event: PlayerPostRewardEvent) {
         val player = event.player
 
         event.player.sendMessage(

@@ -6,7 +6,7 @@ import org.bukkit.event.HandlerList
 import org.bukkit.event.player.PlayerEvent
 import com.exanthiax.xbattlepass.rewards.Reward
 
-class PlayerRewardEvent(player: Player, val reward: Reward): PlayerEvent(player), Cancellable {
+class PlayerPostRewardEvent(player: Player, val reward: Reward): PlayerEvent(player), Cancellable {
     private var cancelled = false
 
     override fun isCancelled(): Boolean {

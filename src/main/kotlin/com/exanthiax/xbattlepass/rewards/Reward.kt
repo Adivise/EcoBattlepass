@@ -9,7 +9,8 @@ import com.willfp.libreforge.toDispatcher
 import com.willfp.libreforge.triggers.TriggerData
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import com.exanthiax.xbattlepass.api.events.PlayerRewardEvent
+import com.exanthiax.xbattlepass.api.events.PlayerPostRewardEvent
+import com.exanthiax.xbattlepass.api.events.PlayerPreRewardEvent
 import com.exanthiax.xbattlepass.plugin
 
 class Reward(private val _id: String, val config: Config): Registrable {
@@ -34,12 +35,12 @@ class Reward(private val _id: String, val config: Config): Registrable {
     )
 
     fun grant(player: Player) {
-        val event = PlayerRewardEvent(player, this)
+        val event = PlayerPreRewardEvent(player, this)
 
         Bukkit.getPluginManager().callEvent(event)
 
         if (!event.isCancelled) {
-            rewardEffects?.trigger(
+            val result = rewardEffects?.trigger(
                 player.toDispatcher(),
                 data = TriggerData(
                     player = player,
@@ -49,6 +50,12 @@ class Reward(private val _id: String, val config: Config): Registrable {
                 )
             ) ?: run {
                 plugin.logger.warning("Failed to grant reward $_id to ${player.name}, reward chain is null!")
+                false
+            }
+
+            if (result) {
+                val postEvent = PlayerPostRewardEvent(player, this)
+                Bukkit.getPluginManager().callEvent(postEvent)
             }
         }
     }

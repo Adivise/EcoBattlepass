@@ -1,10 +1,13 @@
 package com.exanthiax.xbattlepass.gui.components
 
 import com.exanthiax.xbattlepass.api.getTier
+import com.exanthiax.xbattlepass.api.hasPremium
 import com.exanthiax.xbattlepass.api.hasReceivedTier
 import com.exanthiax.xbattlepass.api.receiveTier
+import com.exanthiax.xbattlepass.api.receiveTierPremiumOnly
 import com.exanthiax.xbattlepass.battlepass.BattlePass
 import com.exanthiax.xbattlepass.tiers.BPTier
+import com.exanthiax.xbattlepass.utils.ReceivedTierState
 import com.github.benmanes.caffeine.cache.Caffeine
 import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.gui.menu.Menu
@@ -36,13 +39,19 @@ class BattleTierComponent(
     private val itemCache = nestedMap<LevelState, Int, ItemStack>()
 
     override fun getLevelItem(player: Player, menu: Menu, level: Int, levelState: LevelState): ItemStack {
-        val key = run {
-            if (levelState == LevelState.UNLOCKED && player.hasReceivedTier(pass, level)) {
-                "claimed"
-            } else levelState.key
+        val key: String = run {
+            if (levelState == LevelState.UNLOCKED) {
+                when (player.hasReceivedTier(pass, level)) {
+                    ReceivedTierState.RECEIVED -> "claimed"
+                    ReceivedTierState.RECEIVED_FREE -> if (player.hasPremium(pass)) "unlocked-free" else "premium-required"
+                    else -> levelState.key
+                }
+            } else {
+                levelState.key
+            }
         }
 
-        // plugin.logger.info("Level $level, $key")
+        // plugin.logger.info("Level $level, $key item ${Items.lookup(plugin.configYml.getString("tiers-gui.buttons.$key.item"))}")
 
         fun item() = levelItemCache.get(player.hashCode() xor level.hashCode()) {
             val tier = pass.getTier(level)!!
@@ -87,19 +96,29 @@ class BattleTierComponent(
     }
 
     override fun getLeftClickAction(player: Player, level: Int, levelState: LevelState): () -> Unit {
-        val key = run {
-            if (levelState == LevelState.UNLOCKED && player.hasReceivedTier(pass, level)) {
-                "claimed"
-            } else levelState.key
+        val key: String = run {
+            if (levelState == LevelState.UNLOCKED) {
+                when (player.hasReceivedTier(pass, level)) {
+                    ReceivedTierState.RECEIVED -> "claimed"
+                    ReceivedTierState.RECEIVED_FREE -> if (player.hasPremium(pass)) "unlocked-free" else "premium-required"
+                    else -> levelState.key
+                }
+            } else {
+                levelState.key
+            }
         }
 
-        return if (key == "unlocked") {
+        return if (key == "unlocked" || key == "unlocked-free") {
             {
                 val tier = pass.getTier(level)
                 if (tier != null) {
                     levelItemCache.invalidate(level)
                     itemCache[levelState]?.remove(level)
-                    player.receiveTier(tier)
+                    if (key == "unlocked") {
+                        player.receiveTier(tier)
+                    } else if (player.hasPremium(pass)) {
+                        player.receiveTierPremiumOnly(tier)
+                    }
                     player.openMenu?.refresh(player)
                     // player.closeInventory()
                 }

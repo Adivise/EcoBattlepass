@@ -144,6 +144,25 @@ tiers-gui:
     # %free-rewards% - The free rewards for the tier
     # %premium-rewards% - The premium rewards for the tier
 
+    unlocked-free:
+      item: lime_stained_glass_pane
+      name: "&aTier %tier_numeral%"
+      lore:
+        - "&7Rewards:"
+        - "&a&l✔ &r%free-rewards%"
+        - "%premium-rewards%"
+        - ""
+        - "&aCLAIM"
+
+    premium-required:
+      item: orange_stained_glass_pane
+      name: "&aTier %tier_numeral%"
+      lore:
+        - "&7Rewards:"
+        - "%premium-rewards%"
+        - ""
+        - "&6PURCHASE THE BATTLEPASS TO CLAIM PREMIUM REWARDS"
+
     unlocked:
       item: lime_stained_glass_pane
       name: "&aTier %tier_numeral%"
