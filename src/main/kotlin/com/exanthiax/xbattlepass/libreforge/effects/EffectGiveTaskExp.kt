@@ -16,7 +16,7 @@ object EffectGiveTaskExp: Effect<NoCompileData>("give_battlepass_task_exp") {
         require("task", "You must specify the task to give exp for!")
         require("quest", "You must specify the quest to give exp for!")
         require("battlepass",
-            "You must specify a battlepass to check premium in!",
+            "You must specify a battlepass!",
             {passId -> BattlePasses.getByID(passId)},
             {battlepass -> battlepass != null}
         )

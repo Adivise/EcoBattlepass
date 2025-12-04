@@ -19,7 +19,7 @@ object EffectSetBPTier: Effect<NoCompileData>("set_battlepass_tier") {
     override val arguments: ConfigArguments = arguments {
         require("tier", "You must specify the tier to set!")
         require("battlepass",
-            "You must specify a battlepass to check premium in!",
+            "You must specify a battlepass!",
             {passId -> BattlePasses.getByID(passId)},
             {battlepass -> battlepass != null}
         )

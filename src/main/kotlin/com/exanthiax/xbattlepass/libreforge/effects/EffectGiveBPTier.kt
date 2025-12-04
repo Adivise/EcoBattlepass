@@ -16,7 +16,7 @@ object EffectGiveBPTier: Effect<NoCompileData>("give_battlepass_tiers") {
     override val arguments: ConfigArguments = arguments {
         require("tiers", "You must specify the amount of tiers to give!")
         require("battlepass",
-            "You must specify a battlepass to check premium in!",
+            "You must specify a battlepass!",
             {passId -> BattlePasses.getByID(passId)},
             {battlepass -> battlepass != null}
         )

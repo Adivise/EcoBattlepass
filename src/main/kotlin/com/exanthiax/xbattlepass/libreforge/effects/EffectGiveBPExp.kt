@@ -15,7 +15,7 @@ object EffectGiveBPExp: Effect<NoCompileData>("give_battlepass_xp") {
     override val arguments: ConfigArguments = arguments {
         require("amount", "You must specify the exp amount!")
         require("battlepass",
-            "You must specify a battlepass to check premium in!",
+            "You must specify a battlepass!",
             {passId -> BattlePasses.getByID(passId)},
             {battlepass -> battlepass != null}
         )
