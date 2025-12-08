@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.util.StringUtil
 import com.exanthiax.xbattlepass.api.giveExactBPExperience
 import com.exanthiax.xbattlepass.api.giveExactBPTiers
+import com.exanthiax.xbattlepass.api.giveTaskExperience
 import com.exanthiax.xbattlepass.api.setTaskProgress
 import com.exanthiax.xbattlepass.api.taskProgress
 import com.exanthiax.xbattlepass.battlepass.BattlePasses
@@ -104,7 +105,7 @@ object GiveCommand: PluginCommand(
                 }
             }
 
-            "task-xp", "taskxp" -> {
+            "task_xp", "task-xp", "taskxp" -> {
                 val categoryString = args.getOrNull(3) ?: run {
                     sender.sendMessage(plugin.langYml.getMessage("category-required"))
                     return
@@ -148,8 +149,7 @@ object GiveCommand: PluginCommand(
                 }
 
                 for (player in players) {
-                    val current = player.taskProgress(activeTask)
-                    player.setTaskProgress(activeTask, current + amount)
+                    player.giveTaskExperience(activeTask, amount)
 
                     sender.sendMessage(plugin.langYml.getMessage("given-task-progress")
                         .replace("%playername%", player.name)
