@@ -6,6 +6,7 @@ messages:
   no-permission: "&cYou don't have permission to do this!"
   not-player: "&cThis command must be run by a player"
   reset-player: "&7Successfully reset battlepass &r%pass% &7data for player &6%playername%&7."
+  reset-task: "&7Successfully reset task '&e%task%&7' in &r%pass% &7for &6%playername%&7."
   # Command input errors
   player-required: "&cYou must specify a player!"
   player-not-found: "&cPlayer not found!"
