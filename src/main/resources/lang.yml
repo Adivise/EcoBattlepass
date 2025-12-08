@@ -5,6 +5,7 @@ messages:
   invalid-command: "&cUnknown subcommand!"
   no-permission: "&cYou don't have permission to do this!"
   not-player: "&cThis command must be run by a player"
+  reset-player: "&7Successfully reset battlepass &r%pass% &7data for player &6%playername%&7."
   # Command input errors
   player-required: "&cYou must specify a player!"
   player-not-found: "&cPlayer not found!"
@@ -14,13 +15,19 @@ messages:
   invalid-type: "&cGive type not found!"
   amount-required: "&cYou must specify an amount!"
   invalid-amount: "&cInvalid amount!"
+  category-required: "&cYou must specify a category!"
+  invalid-category: "&cInvalid category!"
+  quest-required: "&cYou must specify a quest!"
+  invalid-quest: "&cInvalid quest!"
+  task-required: "&cYou must specify a task!"
+  invalid-task: "&cInvalid task!"
   # Tier and quest messages
   tier-up: "&7You have tiered up to &a%tier%&7."
   quest-complete: "&7You have completed quest &a%quest%&7."
   reward-claim: "&7You have received reward &a%reward%&7."
   premium-required: "&cYou need to have the premium &6%pass% &cto claim &a%reward%&c!"
-  # Battlepass data management
-  reset-player: "&7Successfully reset battlepass &r%pass% &7data for player &6%playername%&7."
+  given-task-progress: "&7Successfully given &b%amount%&7 task progress for &e%task%&7 in &r%pass% &7to &6%playername%&7."
+  received-task-progress: "&7You received &b%amount%&7 task progress for &e%task%&7 in &r%pass%&7."
   given-experience: "&7Successfully given &b%amount%&7 &r%pass% &7experience to &6%playername%&7."
   received-experience: "&7You have received &b%amount%&7 &r%pass% &7experience."
   given-tiers: "&7Successfully given &b%amount%&7 &r%pass% &7tier(s) to &6%playername%&7."
@@ -42,5 +49,5 @@ infinity: "∞"
 never: "&6never"
 free: "&aFree"
 premium: "&6Premium"
-category-expired: "&cCategory Expired" # This message is used when a category is no longer available
-category-in-progress: "&aCategory Unlocked" # This message is used when a category is unlocked/started
+category-expired: "&cCategory Expired"
+category-in-progress: "&aCategory Unlocked"
