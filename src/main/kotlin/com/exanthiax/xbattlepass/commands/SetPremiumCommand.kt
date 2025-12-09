@@ -14,7 +14,7 @@ import com.willfp.eco.util.formatEco
 object SetPremiumCommand : PluginCommand(
     plugin,
     "setpremium",
-    "xbattlepass.command.setpass",
+    "xbattlepass.command.setpremium",
     false
 ) {
     override fun onExecute(sender: CommandSender, args: List<String>) {
