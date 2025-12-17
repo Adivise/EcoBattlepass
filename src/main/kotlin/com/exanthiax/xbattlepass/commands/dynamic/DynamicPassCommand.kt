@@ -1,14 +1,15 @@
 package com.exanthiax.xbattlepass.commands.dynamic
 
-import com.willfp.eco.core.command.impl.PluginCommand
-import org.bukkit.command.CommandSender
-import org.bukkit.entity.Player
-import org.bukkit.util.StringUtil
 import com.exanthiax.xbattlepass.battlepass.BattlePass
+import com.exanthiax.xbattlepass.commands.helpers.Messages
 import com.exanthiax.xbattlepass.gui.BattlePassGUI
 import com.exanthiax.xbattlepass.gui.BattleTiersGUI
 import com.exanthiax.xbattlepass.gui.QuestsGUI
 import com.exanthiax.xbattlepass.plugin
+import com.willfp.eco.core.command.impl.PluginCommand
+import org.bukkit.command.CommandSender
+import org.bukkit.entity.Player
+import org.bukkit.util.StringUtil
 
 class DynamicPassCommand(
     private val pass: BattlePass,
@@ -17,7 +18,7 @@ class DynamicPassCommand(
     plugin,
     cmd,
     "xbattlepass.command.$cmd",
-    true
+    true  // player-only
 ) {
     override fun onExecute(sender: Player, args: MutableList<String>) {
         when (args.getOrNull(0)?.lowercase()) {
@@ -31,14 +32,14 @@ class DynamicPassCommand(
 
             "quests" -> {
                 val categoryId = args.getOrNull(1) ?: run {
-                    sender.sendMessage(plugin.langYml.getMessage("category-required"))
+                    Messages.sendCategoryRequired(sender)
                     return
                 }
 
                 val category = pass.categories.firstOrNull {
                     it.id.equals(categoryId, ignoreCase = true)
                 } ?: run {
-                    sender.sendMessage(plugin.langYml.getMessage("invalid-category"))
+                    Messages.sendInvalidCategory(sender)
                     return
                 }
 
@@ -46,7 +47,7 @@ class DynamicPassCommand(
             }
 
             else -> {
-                sender.sendMessage(plugin.langYml.getMessage("invalid-command"))
+                Messages.sendDynamicPassUsage(sender)
             }
         }
     }
@@ -58,7 +59,6 @@ class DynamicPassCommand(
                 listOf("tiers", "quests"),
                 mutableListOf()
             )
-
             2 -> {
                 if (args[0].equals("quests", ignoreCase = true)) {
                     StringUtil.copyPartialMatches(
@@ -68,7 +68,6 @@ class DynamicPassCommand(
                     )
                 } else emptyList()
             }
-
             else -> emptyList()
         }
     }

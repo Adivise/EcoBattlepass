@@ -1,5 +1,7 @@
 package com.exanthiax.xbattlepass.commands
 
+import com.exanthiax.xbattlepass.commands.give.GiveCommand
+import com.exanthiax.xbattlepass.commands.reset.ResetCommand
 import com.willfp.eco.core.command.impl.PluginCommand
 import org.bukkit.command.CommandSender
 import com.exanthiax.xbattlepass.plugin

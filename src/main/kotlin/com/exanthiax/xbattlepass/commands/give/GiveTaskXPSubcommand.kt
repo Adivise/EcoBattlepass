@@ -1,29 +1,28 @@
-package com.exanthiax.xbattlepass.commands
+package com.exanthiax.xbattlepass.commands.give
 
-import com.exanthiax.xbattlepass.api.checkCompletedQuest
-import com.exanthiax.xbattlepass.api.hasCompletedTask
-import com.exanthiax.xbattlepass.api.setCompletedTask
+import com.exanthiax.xbattlepass.api.giveTaskExperience
 import com.exanthiax.xbattlepass.battlepass.BattlePasses
 import com.exanthiax.xbattlepass.categories.Categories
-import com.exanthiax.xbattlepass.commands.helpers.*
+import com.exanthiax.xbattlepass.commands.helpers.COMMON_AMOUNTS
+import com.exanthiax.xbattlepass.commands.helpers.Messages
+import com.exanthiax.xbattlepass.commands.helpers.TaskTabCompleter
+import com.exanthiax.xbattlepass.commands.helpers.replacePlaceholders
+import com.exanthiax.xbattlepass.commands.helpers.resolveBattlePass
+import com.exanthiax.xbattlepass.commands.helpers.resolvePlayers
 import com.exanthiax.xbattlepass.plugin
-import com.willfp.eco.core.command.impl.PluginCommand
+import com.willfp.eco.core.command.impl.Subcommand
+import com.willfp.eco.util.toNiceString
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.util.StringUtil
 
-object CompleteTaskCommand : PluginCommand(
+object GiveTaskXPSubcommand : Subcommand(
     plugin,
-    "complete_task",
-    "xbattlepass.command.completetask",
+    "taskxp",
+    "xbattlepass.command.give.taskxp",
     false
 ) {
     override fun onExecute(sender: CommandSender, args: List<String>) {
-        if (args.isEmpty()) {
-            Messages.sendCompleteTaskUsage(sender)
-            return
-        }
-
         val players = sender.resolvePlayers(args.getOrNull(0)) ?: return
         val pass = sender.resolveBattlePass(args.getOrNull(1)) ?: return
 
@@ -37,6 +36,10 @@ object CompleteTaskCommand : PluginCommand(
         }
         val taskString = args.getOrNull(4) ?: run {
             Messages.sendTaskRequired(sender)
+            return
+        }
+        val amountString = args.getOrNull(5) ?: run {
+            Messages.sendAmountRequired(sender)
             return
         }
 
@@ -60,35 +63,25 @@ object CompleteTaskCommand : PluginCommand(
             return
         }
 
-        var anyCompleted = false
+        val amount = amountString.toDoubleOrNull() ?: run {
+            Messages.sendInvalidAmount(sender)
+            return
+        }
 
         for (player in players) {
-            if (player.hasCompletedTask(activeTask)) {
-                continue  // Skip if already completed
-            }
+            player.giveTaskExperience(activeTask, amount)
 
-            player.setCompletedTask(activeTask, true)
-            player.checkCompletedQuest(activeTask)
-            anyCompleted = true
+            val baseGiven = Messages.getGivenTaskProgress()
+            val baseReceived = Messages.getReceivedTaskProgress()
+
+            sender.sendMessage(
+                baseGiven.replacePlaceholders(player, amount, pass, taskName = activeTask.parent.name)
+            )
+
+            player.sendMessage(
+                baseReceived.replacePlaceholders(player, amount, pass, taskName = activeTask.parent.name)
+            )
         }
-
-        val isAll = players.size > 1
-        val displayName = if (isAll) "all players" else players.first().name
-
-        val baseMessage = if (anyCompleted) {
-            Messages.getCompletedTask()
-        } else {
-            Messages.getTaskAlreadyCompleted()
-        }
-
-        sender.sendMessage(
-            baseMessage.replacePlaceholders(
-                player = players.first(),
-                amount = 1,
-                pass = pass,
-                taskName = activeTask.parent.name
-            ).replace("%playername%", displayName)
-        )
     }
 
     override fun tabComplete(sender: CommandSender, args: List<String>): List<String> {
@@ -98,6 +91,7 @@ object CompleteTaskCommand : PluginCommand(
             3 -> TaskTabCompleter.forCategory(args[2])
             4 -> TaskTabCompleter.forQuest(args.getOrNull(2) ?: "", args[3])
             5 -> TaskTabCompleter.forTask(args.getOrNull(2) ?: "", args.getOrNull(3) ?: "", args[4])
+            6 -> StringUtil.copyPartialMatches(args[5], COMMON_AMOUNTS, mutableListOf())
             else -> emptyList()
         }
     }

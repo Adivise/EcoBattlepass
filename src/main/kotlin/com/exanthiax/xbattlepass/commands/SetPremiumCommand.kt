@@ -1,15 +1,19 @@
 package com.exanthiax.xbattlepass.commands
 
-import com.willfp.eco.core.command.impl.PluginCommand
-import org.bukkit.Bukkit
-import org.bukkit.command.CommandSender
-import org.bukkit.util.StringUtil
 import com.exanthiax.xbattlepass.api.hasPremium
 import com.exanthiax.xbattlepass.api.setPremium
 import com.exanthiax.xbattlepass.battlepass.BattlePasses
+import com.exanthiax.xbattlepass.commands.helpers.Messages
+import com.exanthiax.xbattlepass.commands.helpers.replacePlaceholders
+import com.exanthiax.xbattlepass.commands.helpers.resolveBattlePass
+import com.exanthiax.xbattlepass.commands.helpers.resolvePlayers
 import com.exanthiax.xbattlepass.plugin
 import com.exanthiax.xbattlepass.utils.SoundUtils
+import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.eco.util.formatEco
+import org.bukkit.Bukkit
+import org.bukkit.command.CommandSender
+import org.bukkit.util.StringUtil
 
 object SetPremiumCommand : PluginCommand(
     plugin,
@@ -18,78 +22,76 @@ object SetPremiumCommand : PluginCommand(
     false
 ) {
     override fun onExecute(sender: CommandSender, args: List<String>) {
-        val playerName = args.getOrNull(0) ?: run {
-            sender.sendMessage(plugin.langYml.getMessage("player-required"))
+        if (args.isEmpty()) {
+            Messages.sendSetPremiumUsage(sender)
             return
         }
 
-        val player = Bukkit.getPlayer(playerName) ?: run {
-            sender.sendMessage(plugin.langYml.getMessage("player-not-found"))
+        val players = sender.resolvePlayers(args.getOrNull(0)) ?: return
+        if (players.size > 1) {
+            Messages.sendPlayerRequired(sender)
             return
         }
+        val player = players.first()
 
-        val passId = args.getOrNull(1) ?: run {
-            sender.sendMessage(plugin.langYml.getMessage("pass-required"))
-            return
-        }
-
-        val pass = BattlePasses.getByID(passId) ?: run {
-            sender.sendMessage(plugin.langYml.getMessage("pass-not-found"))
-            return
-        }
+        val pass = sender.resolveBattlePass(args.getOrNull(1)) ?: return
 
         val arg3 = args.getOrNull(2)?.lowercase()
         val arg4 = args.getOrNull(3)?.lowercase()
 
-        val setPremium = when {
-            arg3 == null -> true
-            arg3 == "silent" -> true
-            else -> arg3 !in listOf("false", "no", "0")
+        val setToPremium = when (arg3) {
+            null, "silent" -> true
+            "true", "yes", "1" -> true
+            else -> false
         }
 
-        val silent = arg4 == "silent" || (arg3 == "silent" && arg4 == null)
+        val silent = arg4 == "silent" || arg3 == "silent"
 
-        val hasPremium = player.hasPremium(pass)
-        if (setPremium && hasPremium) {
+        val currentlyHasPremium = player.hasPremium(pass)
+
+        if (setToPremium && currentlyHasPremium) {
             sender.sendMessage(
-                plugin.langYml.getMessage("already-premium")
-                    .replace("%playername%", player.name)
-                    .replace("%pass%", pass.name)
-            )
-            return
-        } else if (!setPremium && !hasPremium) {
-            sender.sendMessage(
-                plugin.langYml.getMessage("not-premium")
-                    .replace("%playername%", player.name)
-                    .replace("%pass%", pass.name)
+                Messages.getAlreadyPremium().replacePlaceholders(player, 0, pass)
             )
             return
         }
+        if (!setToPremium && !currentlyHasPremium) {
+            sender.sendMessage(
+                Messages.getNotPremium().replacePlaceholders(player, 0, pass)
+            )
+            return
+        }
 
-        player.setPremium(pass, setPremium)
+        player.setPremium(pass, setToPremium)
 
-        if (setPremium) {
+        if (setToPremium) {
             SoundUtils.playIfEnabled(player, "sound.premium-unlocked")
         }
 
-        val messageKey = if (setPremium) "premium-given" else "premium-removed"
+        val adminMessage = if (setToPremium) {
+            Messages.getPremiumGiven()
+        } else {
+            Messages.getPremiumRemoved()
+        }
+
         sender.sendMessage(
-            plugin.langYml.getMessage(messageKey)
-                .replace("%playername%", player.name)
-                .replace("%pass%", pass.name)
+            adminMessage.replacePlaceholders(player, 0, pass)
         )
 
-        val playerMessageKey = if (setPremium) "premium-unlocked" else "premium-revoked"
+        val playerMessage = if (setToPremium) {
+            Messages.getPremiumUnlocked()
+        } else {
+            Messages.getPremiumRevoked()
+        }
+
         player.sendMessage(
-            plugin.langYml.getMessage(playerMessageKey)
-                .replace("%pass%", pass.name)
+            playerMessage.replacePlaceholders(player, 0, pass)
         )
 
-        if (setPremium && !silent) {
+        if (setToPremium && !silent) {
             Bukkit.broadcastMessage(
-                plugin.langYml.getMessage("premium-broadcast")
-                    .replace("%playername%", player.name)
-                    .replace("%pass%", pass.name)
+                Messages.getPremiumBroadcast()
+                    .replacePlaceholders(player, 0, pass)
                     .formatEco(player)
             )
         }
