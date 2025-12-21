@@ -108,7 +108,9 @@ class QuestsGUI(private val player: Player, val category: Category, val page: In
 
     private fun getMaxPages(): Int {
         val total = category.quests.size
-        return total/getPerPage()
+        val perPage = getPerPage()
+        if (perPage <= 0) return 1  // safety
+        return (total + perPage - 1) / perPage
     }
 
     private fun nextSlot(): Slot {

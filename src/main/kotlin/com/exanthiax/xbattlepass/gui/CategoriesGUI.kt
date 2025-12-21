@@ -108,7 +108,9 @@ class CategoriesGUI(private val player: Player, val pass: BattlePass,
 
     private fun getMaxPages(): Int {
         val total = pass.categories.size
-        return total/getPerPage()
+        val perPage = getPerPage()
+        if (perPage == 0) return 1
+        return (total + perPage - 1) / perPage
     }
 
     private fun nextSlot(): Slot {
