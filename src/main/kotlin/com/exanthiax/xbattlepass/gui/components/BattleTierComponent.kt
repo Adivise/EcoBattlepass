@@ -16,6 +16,7 @@ import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
 import com.willfp.eco.core.map.nestedMap
 import com.willfp.eco.core.placeholder.context.placeholderContext
+import com.willfp.eco.core.sound.PlayableSound
 import com.willfp.eco.util.NumberUtils.evaluateExpression
 import com.willfp.eco.util.formatEco
 import com.willfp.eco.util.openMenu
@@ -106,7 +107,7 @@ class BattleTierComponent(
                 .replace("%tier%", tierLevel.toString())
                 .replace("%reward%", premiumRewardName)
         )
-        SoundUtils.playIfEnabled(this, "sound.premium-required")
+        PlayableSound.create(plugin.configYml.getSubsection("sound.premium-required"))?.playTo(this)
     }
 
     override fun getLeftClickAction(player: Player, level: Int, levelState: LevelState): () -> Unit {
@@ -137,7 +138,7 @@ class BattleTierComponent(
                                 .replace("%reward%", name)
                                 .replace("%pass%", pass.name)
                         )
-                        SoundUtils.playIfEnabled(player, "sound.premium-required")
+                        PlayableSound.create(plugin.configYml.getSubsection("sound.premium-required"))?.playTo(player)
                     } else {
                         levelItemCache.invalidate(level)
                         itemCache[levelState]?.remove(level)
@@ -150,7 +151,7 @@ class BattleTierComponent(
             }
         } else if (key == "locked" || key == "in-progress") {
             {
-                SoundUtils.playIfEnabled(player, "sound.reward-locked")
+                PlayableSound.create(plugin.configYml.getSubsection("sound.reward-locked"))?.playTo(player)
             }
         } else {
             {}

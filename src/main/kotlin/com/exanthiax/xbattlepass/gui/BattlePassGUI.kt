@@ -14,6 +14,7 @@ import com.willfp.eco.core.gui.slot.FillerMask
 import com.willfp.eco.core.gui.slot.MaskItems
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
+import com.willfp.eco.core.sound.PlayableSound
 import com.willfp.eco.util.formatEco
 import com.willfp.eco.util.formatWithCommas
 import com.willfp.eco.util.toNiceString
@@ -50,7 +51,7 @@ object BattlePassGUI {
                         .build()
                 ) {
                     onLeftClick { _, _ ->
-                        SoundUtils.playIfEnabled(player, "sound.gui-click-sound")
+                        PlayableSound.create(plugin.configYml.getSubsection("sound.gui-click-sound"))?.playTo(player)
                         BattleTiersGUI.createAndOpen(player, pass, true)
                     }
                 }
@@ -68,7 +69,7 @@ object BattlePassGUI {
                         .build()
                 ) {
                     onLeftClick { _, _ ->
-                        SoundUtils.playIfEnabled(player, "sound.gui-click-sound")
+                        PlayableSound.create(plugin.configYml.getSubsection("sound.gui-click-sound"))?.playTo(player)
                         CategoriesGUI(player, pass, backButton = true).open()
                     }
                 }

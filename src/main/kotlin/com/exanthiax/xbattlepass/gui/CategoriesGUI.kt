@@ -13,6 +13,7 @@ import com.exanthiax.xbattlepass.categories.Category
 import com.exanthiax.xbattlepass.plugin
 import com.exanthiax.xbattlepass.utils.InternalPlaceholders
 import com.exanthiax.xbattlepass.utils.SoundUtils
+import com.willfp.eco.core.sound.PlayableSound
 
 class CategoriesGUI(private val player: Player, val pass: BattlePass,
                     val page: Int = 1, val backButton: Boolean = false) {
@@ -161,7 +162,7 @@ class CategoriesGUI(private val player: Player, val pass: BattlePass,
         return Slot.builder(itemBuilder.build())
             .onLeftClick { _, _, _ ->
                 if (pair.isActive) {
-                    SoundUtils.playIfEnabled(player, "sound.gui-click-sound")
+                    PlayableSound.create(plugin.configYml.getSubsection("sound.gui-click-sound"))?.playTo(player)
                     QuestsGUI(player, pair, wasBack = backButton).open()
                 }
             }

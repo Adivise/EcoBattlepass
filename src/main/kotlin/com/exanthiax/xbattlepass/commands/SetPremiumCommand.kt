@@ -10,6 +10,7 @@ import com.exanthiax.xbattlepass.commands.helpers.resolvePlayers
 import com.exanthiax.xbattlepass.plugin
 import com.exanthiax.xbattlepass.utils.SoundUtils
 import com.willfp.eco.core.command.impl.PluginCommand
+import com.willfp.eco.core.sound.PlayableSound
 import com.willfp.eco.util.formatEco
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
@@ -65,7 +66,7 @@ object SetPremiumCommand : PluginCommand(
         player.setPremium(pass, setToPremium)
 
         if (setToPremium) {
-            SoundUtils.playIfEnabled(player, "sound.premium-unlocked")
+            PlayableSound.create(plugin.configYml.getSubsection("sound.premium-unlocked"))?.playTo(player)
         }
 
         val adminMessage = if (setToPremium) {
