@@ -10,6 +10,7 @@ import com.exanthiax.xbattlepass.api.events.PlayerPostRewardEvent
 import com.exanthiax.xbattlepass.api.events.PlayerTierLevelUpEvent
 import com.exanthiax.xbattlepass.api.getTier
 import com.exanthiax.xbattlepass.api.giveBPExperience
+import com.willfp.eco.core.sound.PlayableSound
 
 class BattlePassListener(
     private val plugin: XBattlePass
@@ -28,8 +29,7 @@ class BattlePassListener(
                 "%tier%", event.level.toString()
             )
         )
-
-        SoundUtils.playIfEnabled(player, "sound.tier-up")
+        PlayableSound.create(plugin.configYml.getSubsection("sound.tier-up"))?.playTo(player)
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -48,8 +48,7 @@ class BattlePassListener(
                 "%quest%", event.quest.getFormattedName(event.player)
             )
         )
-
-        SoundUtils.playIfEnabled(player, "sound.quest-complete")
+        PlayableSound.create(plugin.configYml.getSubsection("sound.quest-complete"))?.playTo(player)
 
         event.player.giveBPExperience(
             event.quest.category.battlepass,
@@ -67,7 +66,6 @@ class BattlePassListener(
                 "%reward%", event.reward.getDisplayName(event.player)
             )
         )
-
-        SoundUtils.playIfEnabled(player, "sound.reward-claim")
+        PlayableSound.create(plugin.configYml.getSubsection("sound.reward-claim"))?.playTo(player)
     }
 }
