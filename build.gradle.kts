@@ -53,8 +53,8 @@ allprojects {
 
     tasks {
         shadowJar {
-            relocate("com.willfp.ecomponent", "com.exanthiax.xbattlepass.ecomponent")
-            relocate("com.willfp.libreforge.loader", "com.exanthiax.xbattlepass.libreforge.loader")
+            relocate("com.willfp.ecomponent", "com.exanthiax.ecobattlepass.ecomponent")
+            relocate("com.willfp.libreforge.loader", "com.exanthiax.ecobattlepass.libreforge.loader")
             relocate("kotlin", "com.willfp.eco.libs.kotlin")
             relocate("kotlin.jvm", "com.willfp.eco.libs.kotlin.jvm")
             relocate("kotlin.coroutines", "com.willfp.eco.libs.kotlin.coroutines")

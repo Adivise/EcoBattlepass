@@ -1,5 +1,5 @@
 #
-# xBattlepass Configuration
+# EcoBattlepass Configuration
 # by Exanthiax, _OfTeN_, Auxilor
 #
 
@@ -9,7 +9,7 @@ gui-cache-ttl: 1000
 
 # GUI Configuration for the Battlepass GUI (/battlepass)
 battlepass-gui:
-  title: "xBattlepass"
+  title: "EcoBattlepass"
   mask:
     # The way the mask works is by having a list of materials
     # And then a pattern to use those materials.
@@ -46,7 +46,7 @@ battlepass-gui:
         column: 4
 
     # List of available placeholders:
-    # https://exanthiax.gitbook.io/xbattlepass/useful/internal-placeholders#battlepass-and-category-gui
+    # https://exanthiax.gitbook.io/ecobattlepass/useful/internal-placeholders#battlepass-and-category-gui
 
     quests:
       item: orange_stained_glass_pane
@@ -74,7 +74,7 @@ battlepass-gui:
 
 # GUI Configuration for the Tiers GUI (/battlepass tiers)
 tiers-gui:
-  title: "xBattlepass: Tiers"
+  title: "EcoBattlepass: Tiers"
   mask:
     # The way the mask works is by having a list of materials
     # And then a pattern to use those materials.
@@ -140,7 +140,7 @@ tiers-gui:
     claimed-premium-rewards-format: "&a&l✔ &6%reward%"
 
     # List of available placeholders:
-    # https://exanthiax.gitbook.io/xbattlepass/useful/internal-placeholders#battlepass-tiers-gui
+    # https://exanthiax.gitbook.io/ecobattlepass/useful/internal-placeholders#battlepass-tiers-gui
 
     # The different states a tier can be in
     # When only the free rewards are claimable.
@@ -277,7 +277,7 @@ categories-gui:
       column: 5
 
     # List of available placeholders:
-    # https://exanthiax.gitbook.io/xbattlepass/useful/internal-placeholders#battlepass-and-category-gui
+    # https://exanthiax.gitbook.io/ecobattlepass/useful/internal-placeholders#battlepass-and-category-gui
 
     # Custom GUI slots; see here for a how-to: https://plugins.auxilor.io/all-plugins/custom-gui-slots
     custom-slots: [ ]
@@ -333,7 +333,7 @@ quests-gui:
       column: 5
 
     # List of available placeholders:
-    # https://exanthiax.gitbook.io/xbattlepass/useful/internal-placeholders#quest-gui
+    # https://exanthiax.gitbook.io/ecobattlepass/useful/internal-placeholders#quest-gui
 
     # Custom GUI slots; see here for a how-to: https://plugins.auxilor.io/all-plugins/custom-gui-slots
     custom-slots: [ ]

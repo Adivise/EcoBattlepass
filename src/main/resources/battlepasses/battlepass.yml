@@ -4,7 +4,7 @@ battlepass:
   xp-formula: 1250 # The formula to calculate the XP needed to reach the next tier
   max-tier: 100 # The maximum tier of the battle pass
   command: 'battlepass' # The command to open the battle pass GUI
-  premium-permission: "xbattlepass.pass.premium" # The permission required to access the premium path
+  premium-permission: "ecobattlepass.pass.premium" # The permission required to access the premium path
   battlepass-start: 2025-01-01 00:00 # The date the battle pass starts, used for scheduling start. This must match the date format in config.yml, otherise you will get errors.
   battlepass-end: 2026-01-01 00:00 # The date the battle pass starts, used for scheduling start. This must match the date format in config.yml, otherise you will get errors.
 

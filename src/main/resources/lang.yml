@@ -1,7 +1,7 @@
 messages:
   # General
-  prefix: "<gradient:#00ff87>xBattlepass</gradient:#60efff> &8>> "
-  reloaded: "&7xBattlepass has been reloaded."
+  prefix: "<gradient:#00ff87>EcoBattlepass</gradient:#60efff> &8>> "
+  reloaded: "&7EcoBattlepass has been reloaded."
   invalid-command: "&cUnknown subcommand!"
   no-permission: "&cYou don't have permission to do this!"
   not-player: "&cThis command must be run by a player"

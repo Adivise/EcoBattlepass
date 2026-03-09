@@ -1,12 +1,9 @@
 name: ${pluginName}
 version: ${version}
-main: com.exanthiax.xbattlepass.XBattlePass
+main: com.exanthiax.ecobattlepass.EcoBattlePass
 author: Exanthiax, _OfTeN_, Auxilor
 api-version: 1.19
 depend:
   - eco
 softdepend:
   - libreforge
-commands:
-  xbattlepass:
-    aliases: [xbp]
