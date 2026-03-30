@@ -17,11 +17,17 @@ base {
     archivesName.set(project.name)
 }
 
+dependencies {
+    project.project(project(":eco-core").path).subprojects {
+        implementation(this)
+    }
+}
+
 allprojects {
     apply(plugin = "java")
     apply(plugin = "kotlin")
     apply(plugin = "maven-publish")
-    apply(plugin = "com.github.johnrengelman.shadow")
+    apply(plugin = "com.gradleup.shadow")
 
     repositories {
         mavenCentral()

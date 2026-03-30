@@ -11,3 +11,6 @@ plugins {
 }
 rootProject.name = "EcoBattlepass"
 
+include(":eco-core")
+include(":eco-core:core-plugin")
+
