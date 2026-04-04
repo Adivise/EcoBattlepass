@@ -92,7 +92,7 @@ object Messages {
         sender.sendMessage("§cUsage: /ecobattlepass quests [pass] [category]")
 
     fun sendCompleteTaskUsage(sender: CommandSender) =
-        sender.sendMessage("§cUsage: /ecobattlepass compelete_task <player|all> <pass> <category> <quest> <task>")
+        sender.sendMessage("§cUsage: /ecobattlepass complete_task <player|all> <pass> <category> <quest> <task>")
 
     fun sendTiersUsage(sender: CommandSender) =
         sender.sendMessage("§cUsage: /ecobattlepass tiers <pass>")
