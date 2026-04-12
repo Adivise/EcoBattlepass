@@ -36,7 +36,7 @@ object InternalPlaceholders {
                 .replace("%tier_numeral%", player.getTier(battlepass).toNumeral())
                 .replace("%next_tier%", (player.getTier(battlepass) + 1).toNiceString())
                 .replace("%next_tier_numeral%", (player.getTier(battlepass) + 1).toNumeral())
-                .formatEco(formatPlaceholders = true)
+                .formatEco(player = player, formatPlaceholders = true)
 
             val regex = Regex("%tier_(-?\\d+)(_numeral)?%")
             result = regex.replace(result) { match ->
@@ -72,7 +72,7 @@ object InternalPlaceholders {
                 .replace("%tier_numeral%", tier.number.toNumeral())
                 .replace("%next_tier%", (tier.number + 1).toNiceString())
                 .replace("%next_tier_numeral%", (tier.number + 1).toNumeral())
-                .formatEco(formatPlaceholders = true)
+                .formatEco(player = player, formatPlaceholders = true)
 
             val regex = Regex("%tier_(-?\\d+)(_numeral)?%")
             result = regex.replace(result) { match ->
@@ -99,7 +99,7 @@ object InternalPlaceholders {
                 .replace("%completed%", category.getCompleted(player).toString())
                 .replace("%total%", category.quests.size.toString())
                 .replace("%time%", msToString(category.getDisplayableMs()))
-                .formatEco(formatPlaceholders = true)
+                .formatEco(player = player, formatPlaceholders = true)
         }
 
         fun replaceAll(inputs: List<String>, category: Category, player: Player): List<String> =
@@ -115,7 +115,7 @@ object InternalPlaceholders {
                 .replace("%current_task_xp_formatted%", player.taskProgress(task).formatWithCommas())
                 .replace("%required_task_xp%", task.requiredXP.toNiceString())
                 .replace("%required_task_xp_formatted%", task.requiredXP.formatWithCommas())
-                .formatEco(formatPlaceholders = true)
+                .formatEco(player = player, formatPlaceholders = true)
         }
 
         fun replaceAll(inputs: List<String>, task: ActiveBattleTask, player: Player): List<String> =
