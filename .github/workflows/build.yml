@@ -74,35 +74,45 @@ jobs:
       - name: Notify Discord
         if: success() && steps.sync.outputs.run_build == 'true'
         env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          NOTIFY_API_URL: ${{ secrets.NOTIFY_API_URL }}
+          NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
           REL_NAME: ${{ steps.sync.outputs.release_name }}
           TAG_NAME: ${{ steps.sync.outputs.tag_name }}
           VERSION: ${{ steps.sync.outputs.gradle_version }}
           UP_SHA: ${{ steps.sync.outputs.upstream_sha }}
         run: |
-          if [ -z "${DISCORD_WEBHOOK_URL:-}" ]; then
-            echo "DISCORD_WEBHOOK_URL secret not set; skipping Discord."
+          if [ -z "${NOTIFY_API_URL:-}" ]; then
+            echo "NOTIFY_API_URL secret not set; skipping central notification."
             exit 0
           fi
+          
           rel_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/tag/${TAG_NAME}"
-          jq -n \
-            --arg title "EcoBattlepass Updated — v${REL_NAME}" \
-            --arg url "$rel_url" \
+          dl_url="https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG_NAME}/EcoBattlepass.v${VERSION}.jar"
+          
+          # Create JSON payload
+          payload=$(jq -n \
+            --arg plugin_name "EcoBattlepass" \
+            --arg version "$VERSION" \
             --arg tag "$TAG_NAME" \
-            --arg sha "$UP_SHA" \
-            --arg ver "$VERSION" \
-            --arg rep "$GITHUB_REPOSITORY" \
-            --arg dl_url "https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG_NAME}/EcoBattlepass.v${VERSION}.jar" \
+            --arg upstream_sha "$UP_SHA" \
+            --arg release_url "$rel_url" \
+            --arg download_url "$dl_url" \
+            --arg repository "$GITHUB_REPOSITORY" \
             '{
-              embeds: [{
-                title: $title,
-                url: $url,
-                color: 8947848,
-                fields: [
-                  { name: "Tag", value: $tag, inline: true },
-                  { name: "Upstream SHA", value: ("`" + $sha + "`"), inline: false },
-                  { name: "Direct DL", value: ("[Click Me](" + $dl_url + ")"), inline: false }
-                ],
-                footer: { text: ("GitHub Actions · " + $rep) }
-              }]
-            }' | curl -fsS -X POST -H "Content-Type: application/json" -d @- "$DISCORD_WEBHOOK_URL"
+              plugin_name: $plugin_name,
+              version: $version,
+              tag: $tag,
+              upstream_sha: $upstream_sha,
+              release_url: $release_url,
+              download_url: $download_url,
+              repository: $repository
+            }')
+          
+          # Generate HMAC signature (hex)
+          signature=$(echo -n "$payload" | openssl dgst -sha256 -hmac "$NOTIFY_API_KEY" | sed 's/^.*= //')
+          
+          # Send request with signature
+          echo "$payload" | curl -fsS -X POST \
+            -H "Content-Type: application/json" \
+            -H "x-api-signature: $signature" \
+            -d @- "$NOTIFY_API_URL"

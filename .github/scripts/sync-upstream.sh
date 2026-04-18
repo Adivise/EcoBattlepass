@@ -145,18 +145,13 @@ if ! git ls-remote --tags upstream "refs/tags/v*" | grep -q .; then
   TAG_PREFIX=""
 fi
 
-if [ -z "$OLD_VER" ] || [ "$PV" != "$OLD_VER" ]; then
-  if tag_exists "${TAG_PREFIX}${PV}"; then
-    NEXT_R="$(next_rebuild_suffix "$PV" "$TAG_PREFIX")"
-    TAG_NAME="${TAG_PREFIX}${PV}-rebuild-${NEXT_R}"
-    RELEASE_NAME="${PV} (Rebuild-${NEXT_R})"
-    KIND="rebuild"
-    echo "Note: tag ${TAG_PREFIX}${PV} already exists; using ${TAG_NAME} for this release."
-  else
-    TAG_NAME="${TAG_PREFIX}${PV}"
-    RELEASE_NAME="${PV} (Auto Build)"
-    KIND="auto"
-  fi
+if [ "$PV" != "$OLD_VER" ]; then
+  TAG_NAME="${TAG_PREFIX}${PV}"
+  # Delete the tag from origin in case it's an inherited tag from the upstream fork.
+  # This allows the first build of any version to be "clean".
+  git push origin ":refs/tags/${TAG_NAME}" 2>/dev/null || true
+  RELEASE_NAME="${PV} (Auto Build)"
+  KIND="auto"
 else
   NEXT_R="$(next_rebuild_suffix "$PV" "$TAG_PREFIX")"
   TAG_NAME="${TAG_PREFIX}${PV}-rebuild-${NEXT_R}"
