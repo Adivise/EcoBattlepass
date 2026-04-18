@@ -145,7 +145,7 @@ if ! git ls-remote --tags upstream "refs/tags/v*" | grep -q .; then
   TAG_PREFIX=""
 fi
 
-if [ "$PV" != "$OLD_VER" ]; then
+if [ "$PV" != "$OLD_VER" ] || [ -z "$OLD_SHA" ]; then
   TAG_NAME="${TAG_PREFIX}${PV}"
   # Delete the tag from origin in case it's an inherited tag from the upstream fork.
   # This allows the first build of any version to be "clean".
