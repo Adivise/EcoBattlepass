@@ -90,7 +90,7 @@ jobs:
           dl_url="https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG_NAME}/EcoBattlepass.v${VERSION}.jar"
           
           # Create JSON payload
-          payload=$(jq -n \
+          payload=$(jq -cn \
             --arg plugin_name "EcoBattlepass" \
             --arg version "$VERSION" \
             --arg tag "$TAG_NAME" \
