@@ -1,26 +1,108 @@
-name: Build
+name: Auto Build
 
 on:
-  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */2 * * *'
+
+concurrency:
+  group: auto-build-${{ github.repository }}
+  cancel-in-progress: false
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: false
 
-      - name: Set up JDK 25
+      - name: Sync from upstream (changed files only)
+        id: sync
+        env:
+          UPSTREAM_URL: https://github.com/Auxilor/EcoBattlepass.git
+        run: bash .github/scripts/sync-upstream.sh
+
+      - name: Set up JDK 21
+        if: steps.sync.outputs.run_build == 'true'
         uses: actions/setup-java@v4
         with:
-          java-version: '25'
           distribution: 'temurin'
+          java-version: 21
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+      - name: Setup Gradle cache
+        if: steps.sync.outputs.run_build == 'true'
+        uses: gradle/actions/setup-gradle@v3
 
       - name: Build
+        if: steps.sync.outputs.run_build == 'true'
+        run: ./gradlew clean build shadowJar --no-daemon
+
+      - name: Verify artifact
+        if: steps.sync.outputs.run_build == 'true'
         run: |
-          chmod +x gradlew
-          ./gradlew build
+          ls -lh bin/*.jar
+          sha256sum bin/*.jar
+
+      - name: Commit sync and push
+        id: publish
+        if: steps.sync.outputs.has_update == 'true' || steps.sync.outputs.has_update == 'pointer'
+        env:
+          DEFAULT_BRANCH: ${{ steps.sync.outputs.default_branch }}
+          HAS_UPDATE: ${{ steps.sync.outputs.has_update }}
+          UPSTREAM_SHA: ${{ steps.sync.outputs.upstream_sha }}
+        run: bash .github/scripts/commit-sync.sh
+
+      - name: Create Release
+        if: steps.sync.outputs.run_build == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.sync.outputs.tag_name }}
+          name: ${{ steps.sync.outputs.release_name }}
+          target_commitish: ${{ steps.publish.outputs.head_sha }}
+          files: bin/*.jar
+          body: |
+            Auto-generated build from upstream Auxilor/EcoBattlepass @ ${{ steps.sync.outputs.upstream_sha }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Notify Discord
+        if: success() && steps.sync.outputs.run_build == 'true'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          REL_NAME: ${{ steps.sync.outputs.release_name }}
+          TAG_NAME: ${{ steps.sync.outputs.tag_name }}
+          VERSION: ${{ steps.sync.outputs.gradle_version }}
+          UP_SHA: ${{ steps.sync.outputs.upstream_sha }}
+        run: |
+          if [ -z "${DISCORD_WEBHOOK_URL:-}" ]; then
+            echo "DISCORD_WEBHOOK_URL secret not set; skipping Discord."
+            exit 0
+          fi
+          rel_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/tag/${TAG_NAME}"
+          jq -n \
+            --arg title "EcoBattlepass Updated — v${REL_NAME}" \
+            --arg url "$rel_url" \
+            --arg tag "$TAG_NAME" \
+            --arg sha "$UP_SHA" \
+            --arg ver "$VERSION" \
+            --arg rep "$GITHUB_REPOSITORY" \
+            --arg dl_url "https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG_NAME}/EcoBattlepass.v${VERSION}.jar" \
+            '{
+              embeds: [{
+                title: $title,
+                url: $url,
+                color: 8947848,
+                fields: [
+                  { name: "Tag", value: $tag, inline: true },
+                  { name: "Upstream SHA", value: ("`" + $sha + "`"), inline: false },
+                  { name: "Direct DL", value: ("[Click Me](" + $dl_url + ")"), inline: false }
+                ],
+                footer: { text: ("GitHub Actions · " + $rep) }
+              }]
+            }' | curl -fsS -X POST -H "Content-Type: application/json" -d @- "$DISCORD_WEBHOOK_URL"
