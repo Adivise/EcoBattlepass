@@ -10,17 +10,17 @@ UPSTREAM_URL="${UPSTREAM_URL:-https://github.com/Auxilor/EcoBattlepass.git}"
 git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 git config user.name "github-actions[bot]"
 git config push.followTags false
-git remote add upstream "$UPSTREAM_URL" 2>/dev/null || true
-git fetch origin --no-tags
-git remote set-head origin -a 2>/dev/null || true
-git fetch upstream --no-tags
-
 if [ "${GITHUB_ACTIONS:-}" = "true" ]; then
   while IFS= read -r t; do
     [ -z "$t" ] && continue
     git tag -d "$t" 2>/dev/null || true
   done < <(git tag -l)
 fi
+
+git remote add upstream "$UPSTREAM_URL" 2>/dev/null || true
+git fetch origin --no-tags
+git remote set-head origin -a 2>/dev/null || true
+git fetch upstream --tags --force
 
 DEFAULT_BRANCH=""
 origin_head_ref="$(git symbolic-ref -q refs/remotes/origin/HEAD 2>/dev/null || true)"
@@ -146,16 +146,16 @@ if ! git ls-remote --tags upstream "refs/tags/v*" | grep -q .; then
 fi
 
 if [ "$PV" != "$OLD_VER" ] || [ -z "$OLD_SHA" ]; then
-  TAG_NAME="${TAG_PREFIX}${PV}"
+  TAG_NAME="${TAG_PREFIX}${PV}-dev"
   # Delete the tag from origin in case it's an inherited tag from the upstream fork.
   # This allows the first build of any version to be "clean".
   git push origin ":refs/tags/${TAG_NAME}" 2>/dev/null || true
-  RELEASE_NAME="${PV} (Auto Build)"
+  RELEASE_NAME="${PV} (Dev Build)"
   KIND="auto"
 else
   NEXT_R="$(next_rebuild_suffix "$PV" "$TAG_PREFIX")"
-  TAG_NAME="${TAG_PREFIX}${PV}-rebuild-${NEXT_R}"
-  RELEASE_NAME="${PV} (Rebuild-${NEXT_R})"
+  TAG_NAME="${TAG_PREFIX}${PV}-dev-rebuild-${NEXT_R}"
+  RELEASE_NAME="${PV} (Dev Rebuild-${NEXT_R})"
   KIND="rebuild"
 fi
 

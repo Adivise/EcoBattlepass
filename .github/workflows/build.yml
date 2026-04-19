@@ -10,11 +10,108 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  release:
+  stable-release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
+      - name: Resolve latest upstream tag
+        id: check
+        run: |
+          git remote add upstream https://github.com/Auxilor/EcoBattlepass.git || true
+          git fetch upstream --tags
+          
+          LATEST_TAG=$(git ls-remote --refs --tags upstream | awk -F/ '{print $3}' | sort -V | tail -n1)
+          echo "Latest upstream tag: $LATEST_TAG"
+          
+          RELEASE_INFO=$(gh release view "$LATEST_TAG" --json isPrerelease --jq .isPrerelease 2>/dev/null || echo "NOT_FOUND")
+          
+          if [ "$RELEASE_INFO" = "false" ]; then
+            echo "Stable release for $LATEST_TAG already exists. Skipping."
+            echo "run_build=false" >> $GITHUB_OUTPUT
+          else
+            echo "run_build=true" >> $GITHUB_OUTPUT
+            echo "tag_name=$LATEST_TAG" >> $GITHUB_OUTPUT
+            git checkout "tags/$LATEST_TAG"
+            VERSION=$(grep -E '^version[[:space:]]*=' gradle.properties | head -1 | sed 's/^[^=]*=[[:space:]]*//;s/[[:space:]]*$//;s/#.*//')
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+            SHA=$(git rev-parse HEAD)
+            echo "sha=$SHA" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Set up JDK 21
+        if: steps.check.outputs.run_build == 'true'
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 21
+
+      - name: Setup Gradle cache
+        if: steps.check.outputs.run_build == 'true'
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Build
+        if: steps.check.outputs.run_build == 'true'
+        run: ./gradlew clean build shadowJar --no-daemon
+
+      - name: Create Stable Release
+        if: steps.check.outputs.run_build == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.check.outputs.tag_name }}
+          name: ${{ steps.check.outputs.version }} (Stable)
+          files: bin/*.jar
+          prerelease: false
+          make_latest: true
+          body: |
+            ## [STABLE] EcoBattlepass — v${{ steps.check.outputs.version }}
+            Auto-generated stable build from upstream tag `${{ steps.check.outputs.tag_name }}`.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Notify Discord (Stable)
+        if: success() && steps.check.outputs.run_build == 'true'
+        env:
+          NOTIFY_API_URL: ${{ secrets.NOTIFY_API_URL }}
+          NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
+          TAG_NAME: ${{ steps.check.outputs.tag_name }}
+          VERSION: ${{ steps.check.outputs.version }}
+          UP_SHA: ${{ steps.check.outputs.sha }}
+        run: |
+          if [ -z "${NOTIFY_API_URL:-}" ]; then exit 0; fi
+          rel_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/tag/${TAG_NAME}"
+          dl_url="https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG_NAME}/EcoBattlepass.v${VERSION}.jar"
+          payload=$(jq -cn \
+            --arg plugin_name "EcoBattlepass" \
+            --arg status "stable" \
+            --arg version "$VERSION" \
+            --arg tag "$TAG_NAME" \
+            --arg upstream_sha "$UP_SHA" \
+            --arg release_url "$rel_url" \
+            --arg download_url "$dl_url" \
+            --arg repository "$GITHUB_REPOSITORY" \
+            '{
+              plugin_name: $plugin_name,
+              status: $status,
+              version: $version,
+              tag: $tag,
+              upstream_sha: $upstream_sha,
+              release_url: $release_url,
+              download_url: $download_url,
+              repository: $repository
+            }')
+          signature=$(echo -n "$payload" | openssl dgst -sha256 -hmac "$NOTIFY_API_KEY" | sed 's/^.*= //')
+          echo "$payload" | curl -fsS -X POST -H "Content-Type: application/json" -H "x-api-signature: $signature" -d @- "$NOTIFY_API_URL"
+
+  dev-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -22,7 +119,7 @@ jobs:
           fetch-depth: 0
           fetch-tags: false
 
-      - name: Sync from upstream (changed files only)
+      - name: Sync from upstream (Dev)
         id: sync
         env:
           UPSTREAM_URL: https://github.com/Auxilor/EcoBattlepass.git
@@ -43,12 +140,6 @@ jobs:
         if: steps.sync.outputs.run_build == 'true'
         run: ./gradlew clean build shadowJar --no-daemon
 
-      - name: Verify artifact
-        if: steps.sync.outputs.run_build == 'true'
-        run: |
-          ls -lh bin/*.jar
-          sha256sum bin/*.jar
-
       - name: Commit sync and push
         id: publish
         if: steps.sync.outputs.has_update == 'true' || steps.sync.outputs.has_update == 'pointer'
@@ -58,40 +149,37 @@ jobs:
           UPSTREAM_SHA: ${{ steps.sync.outputs.upstream_sha }}
         run: bash .github/scripts/commit-sync.sh
 
-      - name: Create Release
+      - name: Create Dev Release
         if: steps.sync.outputs.run_build == 'true'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.sync.outputs.tag_name }}
-          name: ${{ steps.sync.outputs.release_name }}
+          name: ${{ steps.sync.outputs.release_name }} (Dev)
           target_commitish: ${{ steps.publish.outputs.head_sha }}
           files: bin/*.jar
+          prerelease: true
+          make_latest: false
           body: |
-            Auto-generated build from upstream Auxilor/EcoBattlepass @ ${{ steps.sync.outputs.upstream_sha }}
+            ## [DEV] EcoBattlepass — v${{ steps.sync.outputs.gradle_version }}
+            Auto-generated development build from upstream master @ `${{ steps.sync.outputs.upstream_sha }}`.
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Notify Discord
+      - name: Notify Discord (Dev)
         if: success() && steps.sync.outputs.run_build == 'true'
         env:
           NOTIFY_API_URL: ${{ secrets.NOTIFY_API_URL }}
           NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
-          REL_NAME: ${{ steps.sync.outputs.release_name }}
           TAG_NAME: ${{ steps.sync.outputs.tag_name }}
           VERSION: ${{ steps.sync.outputs.gradle_version }}
           UP_SHA: ${{ steps.sync.outputs.upstream_sha }}
         run: |
-          if [ -z "${NOTIFY_API_URL:-}" ]; then
-            echo "NOTIFY_API_URL secret not set; skipping central notification."
-            exit 0
-          fi
-          
+          if [ -z "${NOTIFY_API_URL:-}" ]; then exit 0; fi
           rel_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/tag/${TAG_NAME}"
           dl_url="https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG_NAME}/EcoBattlepass.v${VERSION}.jar"
-          
-          # Create JSON payload
           payload=$(jq -cn \
             --arg plugin_name "EcoBattlepass" \
+            --arg status "dev" \
             --arg version "$VERSION" \
             --arg tag "$TAG_NAME" \
             --arg upstream_sha "$UP_SHA" \
@@ -100,6 +188,7 @@ jobs:
             --arg repository "$GITHUB_REPOSITORY" \
             '{
               plugin_name: $plugin_name,
+              status: $status,
               version: $version,
               tag: $tag,
               upstream_sha: $upstream_sha,
@@ -107,12 +196,5 @@ jobs:
               download_url: $download_url,
               repository: $repository
             }')
-          
-          # Generate HMAC signature (hex)
           signature=$(echo -n "$payload" | openssl dgst -sha256 -hmac "$NOTIFY_API_KEY" | sed 's/^.*= //')
-          
-          # Send request with signature
-          echo "$payload" | curl -fsS -X POST \
-            -H "Content-Type: application/json" \
-            -H "x-api-signature: $signature" \
-            -d @- "$NOTIFY_API_URL"
+          echo "$payload" | curl -fsS -X POST -H "Content-Type: application/json" -H "x-api-signature: $signature" -d @- "$NOTIFY_API_URL"
