@@ -9,6 +9,9 @@ concurrency:
   group: auto-build-${{ github.repository }}
   cancel-in-progress: false
 
+env:
+  PLUGIN_NAME: EcoBattlepass
+
 jobs:
   stable-release:
     runs-on: ubuntu-latest
@@ -23,10 +26,10 @@ jobs:
       - name: Resolve latest upstream tag
         id: check
         run: |
-          git remote add upstream https://github.com/Auxilor/EcoBattlepass.git || true
-          git fetch upstream --tags
+          git remote add upstream https://github.com/Auxilor/${{ env.PLUGIN_NAME }}.git || true
+          git fetch upstream --tags --force
           
-          LATEST_TAG=$(git ls-remote --refs --tags upstream | awk -F/ '{print $3}' | sort -V | tail -n1)
+          LATEST_TAG=$(git ls-remote --refs --tags upstream | awk -F/ '{print $3}' | grep -E '^[0-9]|v[0-9]' | sort -V | tail -n1)
           echo "Latest upstream tag: $LATEST_TAG"
           
           RELEASE_INFO=$(gh release view "$LATEST_TAG" --json isPrerelease --jq .isPrerelease 2>/dev/null || echo "NOT_FOUND")
@@ -56,21 +59,37 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
 
       - name: Build
+        id: build
         if: steps.check.outputs.run_build == 'true'
-        run: ./gradlew clean build shadowJar --no-daemon
+        run: |
+          # Try building the checked-out tag
+          if ./gradlew clean build shadowJar --no-daemon; then
+            echo "fallback=false" >> $GITHUB_OUTPUT
+            echo "version=${{ steps.check.outputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "Stable build for tag ${{ steps.check.outputs.tag_name }} failed. Falling back to master branch."
+            git checkout master
+            ./gradlew clean build shadowJar --no-daemon
+            VERSION=$(grep -E '^version[[:space:]]*=' gradle.properties | head -1 | sed 's/^[^=]*=[[:space:]]*//;s/[[:space:]]*$//;s/#.*//')
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+            echo "fallback=true" >> $GITHUB_OUTPUT
+          fi
 
       - name: Create Stable Release
         if: steps.check.outputs.run_build == 'true'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.check.outputs.tag_name }}
-          name: ${{ steps.check.outputs.version }} (Stable)
+          name: ${{ steps.build.outputs.version }} (Stable Build)
           files: bin/*.jar
           prerelease: false
           make_latest: true
           body: |
-            ## [STABLE] EcoBattlepass — v${{ steps.check.outputs.version }}
+            ## [STABLE] ${{ env.PLUGIN_NAME }} — v${{ steps.build.outputs.version }} ${{ steps.build.outputs.fallback == 'true' && '(Fallback Build)' || '' }}
             Auto-generated stable build from upstream tag `${{ steps.check.outputs.tag_name }}`.
+            ${{ steps.build.outputs.fallback == 'true' && '> The build for the original tag failed. This release was generated using the latest development code as a fallback.' || '' }}
+
+            **Workflow Run:** [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -80,14 +99,14 @@ jobs:
           NOTIFY_API_URL: ${{ secrets.NOTIFY_API_URL }}
           NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
           TAG_NAME: ${{ steps.check.outputs.tag_name }}
-          VERSION: ${{ steps.check.outputs.version }}
+          VERSION: ${{ steps.build.outputs.version }}
           UP_SHA: ${{ steps.check.outputs.sha }}
         run: |
           if [ -z "${NOTIFY_API_URL:-}" ]; then exit 0; fi
           rel_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/tag/${TAG_NAME}"
-          dl_url="https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG_NAME}/EcoBattlepass.v${VERSION}.jar"
+          dl_url="https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG_NAME}/${{ env.PLUGIN_NAME }}.v${VERSION}.jar"
           payload=$(jq -cn \
-            --arg plugin_name "EcoBattlepass" \
+            --arg plugin_name "${{ env.PLUGIN_NAME }}" \
             --arg status "stable" \
             --arg version "$VERSION" \
             --arg tag "$TAG_NAME" \
@@ -122,7 +141,7 @@ jobs:
       - name: Sync from upstream (Dev)
         id: sync
         env:
-          UPSTREAM_URL: https://github.com/Auxilor/EcoBattlepass.git
+          UPSTREAM_URL: https://github.com/Auxilor/${{ env.PLUGIN_NAME }}.git
         run: bash .github/scripts/sync-upstream.sh
 
       - name: Set up JDK 21
@@ -154,14 +173,16 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.sync.outputs.tag_name }}
-          name: ${{ steps.sync.outputs.release_name }} (Dev)
+          name: ${{ steps.sync.outputs.release_name }}
           target_commitish: ${{ steps.publish.outputs.head_sha }}
           files: bin/*.jar
           prerelease: true
           make_latest: false
           body: |
-            ## [DEV] EcoBattlepass — v${{ steps.sync.outputs.gradle_version }}
+            ## [DEV] ${{ env.PLUGIN_NAME }} — v${{ steps.sync.outputs.gradle_version }}
             Auto-generated development build from upstream master @ `${{ steps.sync.outputs.upstream_sha }}`.
+
+            **Workflow Run:** [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -176,9 +197,9 @@ jobs:
         run: |
           if [ -z "${NOTIFY_API_URL:-}" ]; then exit 0; fi
           rel_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/tag/${TAG_NAME}"
-          dl_url="https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG_NAME}/EcoBattlepass.v${VERSION}.jar"
+          dl_url="https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG_NAME}/${{ env.PLUGIN_NAME }}.v${VERSION}.jar"
           payload=$(jq -cn \
-            --arg plugin_name "EcoBattlepass" \
+            --arg plugin_name "${{ env.PLUGIN_NAME }}" \
             --arg status "dev" \
             --arg version "$VERSION" \
             --arg tag "$TAG_NAME" \
