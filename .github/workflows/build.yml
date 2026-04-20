@@ -60,23 +60,41 @@ jobs:
         if: steps.check.outputs.run_build == 'true'
         uses: gradle/actions/setup-gradle@v3
 
-      - name: Build
+      - name: Build with Retry
         id: build
         if: steps.check.outputs.run_build == 'true'
         run: |
-          # Try building the checked-out tag
-          if ./gradlew clean build shadowJar --no-daemon; then
+          MAX_RETRIES=3
+          COUNT=0
+          SUCCESS=false
+          
+          # Increase gradle wrapper timeout to 60s
+          export GRADLE_OPTS="-Dorg.gradle.internal.http.connectionTimeout=60000 -Dorg.gradle.internal.http.socketTimeout=60000"
+
+          while [ $COUNT -lt $MAX_RETRIES ]; do
+            COUNT=$((COUNT+1))
+            echo "Build attempt $COUNT of $MAX_RETRIES..."
+            
+            if ./gradlew clean build shadowJar --no-daemon; then
+              SUCCESS=true
+              break
+            fi
+            
+            echo "Build attempt $COUNT failed. Waiting 15s to retry..."
+            sleep 15
+          done
+
+          if [ "$SUCCESS" = "true" ]; then
             echo "fallback=false" >> $GITHUB_OUTPUT
             echo "version=${{ steps.check.outputs.version }}" >> $GITHUB_OUTPUT
           else
-            echo "Stable build for tag ${{ steps.check.outputs.tag_name }} failed. Falling back to master branch."
+            echo "Stable build failed after $MAX_RETRIES attempts. Falling back to master branch."
             git checkout master
             ./gradlew clean build shadowJar --no-daemon
             VERSION=$(grep -E '^version[[:space:]]*=' gradle.properties | head -1 | sed 's/^[^=]*=[[:space:]]*//;s/[[:space:]]*$//;s/#.*//')
             echo "version=$VERSION" >> $GITHUB_OUTPUT
             echo "fallback=true" >> $GITHUB_OUTPUT
           fi
-
       - name: Create Stable Release
         if: steps.check.outputs.run_build == 'true'
         uses: softprops/action-gh-release@v2
