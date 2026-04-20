@@ -34,12 +34,12 @@ jobs:
           LATEST_TAG=$(git ls-remote --refs --tags upstream | awk -F/ '{print $3}' | grep -E '^[0-9]|v[0-9]' | sort -V | tail -n1)
           echo "Latest upstream tag: $LATEST_TAG"
           
-          RELEASE_INFO=$(gh release view "$LATEST_TAG" --json isPrerelease --jq .isPrerelease 2>/dev/null || echo "NOT_FOUND")
-          
-          if [ "$RELEASE_INFO" = "false" ]; then
+          # Explicitly check if the release exists on YOUR fork
+          if gh release view "$LATEST_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
             echo "Stable release for $LATEST_TAG already exists. Skipping."
             echo "run_build=false" >> $GITHUB_OUTPUT
           else
+            echo "Stable release not found or needs update. Proceeding."
             echo "run_build=true" >> $GITHUB_OUTPUT
             echo "tag_name=$LATEST_TAG" >> $GITHUB_OUTPUT
             git checkout "tags/$LATEST_TAG"
