@@ -1,6 +1,6 @@
 messages:
   # General
-  prefix: "<gradient:#00ff87>EcoBattlepass</gradient:#60efff> &8>> "
+  prefix: "&#fd9d1cEcoBattlepass &8>> "
   reloaded: "Reloaded in %time%ms! Loaded %count% battlepasses."
   invalid-command: "&cUnknown subcommand!"
   no-permission: "&cYou don't have permission to do this!"
