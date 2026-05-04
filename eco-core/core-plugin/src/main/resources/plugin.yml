@@ -1,8 +1,8 @@
-name: ${pluginName}
+﻿name: ${pluginName}
 version: ${version}
 main: com.exanthiax.ecobattlepass.EcoBattlePass
 author: Exanthiax, _OfTeN_, Auxilor
-api-version: 1.19
+api-version: 1.21.8
 depend:
   - eco
 softdepend:
