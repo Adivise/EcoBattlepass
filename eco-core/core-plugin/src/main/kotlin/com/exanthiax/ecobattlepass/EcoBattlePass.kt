@@ -1,5 +1,6 @@
 package com.exanthiax.ecobattlepass
 
+import com.exanthiax.ecobattlepass.api.hasPremium
 import com.exanthiax.ecobattlepass.battlepass.BattlePasses
 import com.exanthiax.ecobattlepass.categories.Categories
 import com.exanthiax.ecobattlepass.commands.EcoBattlePassCommand
@@ -21,7 +22,9 @@ import com.exanthiax.ecobattlepass.quests.BattleQuests
 import com.exanthiax.ecobattlepass.rewards.Rewards
 import com.exanthiax.ecobattlepass.tasks.BattleTasks
 import com.exanthiax.ecobattlepass.utils.BattlePassListener
+import com.willfp.eco.core.bstats.EcoMetricsChart
 import com.willfp.eco.core.command.impl.PluginCommand
+import org.bukkit.Bukkit
 import com.willfp.eco.core.config.BaseConfig
 import com.willfp.eco.core.config.ConfigType
 import com.willfp.libreforge.conditions.Conditions
@@ -104,4 +107,18 @@ class EcoBattlePass : LibreforgePlugin() {
             BattlePasses.tickUpdates()
         }
     }
+
+    override fun getCustomCharts() = listOf(
+        EcoMetricsChart.SingleLine("total_battlepasses") { BattlePasses.values().size },
+        EcoMetricsChart.SingleLine("total_quests") { BattleQuests.values().size },
+        EcoMetricsChart.SingleLine("total_tasks") { BattleTasks.values().size },
+        EcoMetricsChart.SingleLine("total_rewards") { Rewards.values().size },
+        EcoMetricsChart.SingleLine("total_categories") { Categories.values().size },
+        EcoMetricsChart.AdvancedPie("uses_premium") {
+            val passes = BattlePasses.values()
+            val online = Bukkit.getOnlinePlayers()
+            val premium = online.count { player -> passes.any { pass -> player.hasPremium(pass) } }
+            mapOf("Premium" to premium, "Free" to (online.size - premium))
+        }
+    )
 }
