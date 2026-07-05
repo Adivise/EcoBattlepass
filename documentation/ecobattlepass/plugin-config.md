@@ -66,7 +66,7 @@ battlepass-gui:
         column: 4
 
     # List of available placeholders:
-    # https://plugins.auxilor.io/ecobattlepass/internalplaceholders#battlepass-and-category-gui
+    # https://hub.auxilor.io/wiki/ecobattlepass/internalplaceholders#battlepass-and-category-gui
 
     quests:
       item: orange_stained_glass_pane
@@ -89,7 +89,7 @@ battlepass-gui:
         row: 3
         column: 5
 
-    # Custom GUI slots; see here for a how-to: https://plugins.auxilor.io/all-plugins/custom-gui-slots
+    # Custom GUI slots; see here for a how-to: https://hub.auxilor.io/wiki/eco/pages
     custom-slots: []
 
 # GUI Configuration for the Tiers GUI (/battlepass tiers)
@@ -226,7 +226,7 @@ tiers-gui:
     claimed-premium-rewards-format: "&a&l✔ &6%reward%"
 
     # List of available placeholders:
-    # https://plugins.auxilor.io/ecobattlepass/internalplaceholders#battlepass-tiers-gui
+    # https://hub.auxilor.io/wiki/ecobattlepass/internalplaceholders#battlepass-tiers-gui
 
     # The different states a tier can be in
     # When only the free rewards are claimable.
@@ -389,7 +389,7 @@ tiers-gui:
           - ""
           - "&aCLAIMED"
 
-    # Custom GUI slots; see here for a how-to: https://plugins.auxilor.io/all-plugins/custom-gui-slots
+    # Custom GUI slots; see here for a how-to: https://hub.auxilor.io/wiki/eco/pages
     custom-slots: []
 
 # GUI Configuration for the Categories GUI (/battlepass quests)
@@ -447,9 +447,9 @@ categories-gui:
         column: 5
 
     # List of available placeholders:
-    # https://plugins.auxilor.io/ecobattlepass/internalplaceholders#battlepass-and-category-gui
+    # https://hub.auxilor.io/wiki/ecobattlepass/internalplaceholders#battlepass-and-category-gui
 
-    # Custom GUI slots; see here for a how-to: https://plugins.auxilor.io/all-plugins/custom-gui-slots
+    # Custom GUI slots; see here for a how-to: https://hub.auxilor.io/wiki/eco/pages
     custom-slots: []
 
 # GUI Configuration for the Quests GUI
@@ -507,9 +507,9 @@ quests-gui:
         column: 5
 
     # List of available placeholders:
-    # https://plugins.auxilor.io/ecobattlepass/internalplaceholders#quest-gui
+    # https://hub.auxilor.io/wiki/ecobattlepass/internalplaceholders#quest-gui
 
-    # Custom GUI slots; see here for a how-to: https://plugins.auxilor.io/all-plugins/custom-gui-slots
+    # Custom GUI slots; see here for a how-to: https://hub.auxilor.io/wiki/eco/pages
     custom-slots: []
 
 # GUI Configuration for the Quest Icon
@@ -581,5 +581,5 @@ sound:
 
 - **Placeholders:** [Internal placeholders](internalplaceholders) lists everything usable in the GUI lore and names above.
 - **Build a pass:** [How to make a battlepass](how-to-make-a-battlepass) covers the per-pass configs these GUIs display.
-- **Custom GUI slots:** the [custom GUI slots](https://plugins.auxilor.io/all-plugins/custom-gui-slots) guide covers the `custom-slots` option.
+- **Custom GUI slots:** the [custom GUI slots](https://hub.auxilor.io/wiki/eco/pages) guide covers the `custom-slots` option.
 
